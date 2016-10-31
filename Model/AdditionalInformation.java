@@ -1,11 +1,13 @@
 package Model;
 
+//contains all additional information for one application
+
 public class AdditionalInformation {
 
 	private Select[] selectOptions;
 	private Checkbox[] checkboxOptions;
 	private Text[] textOptions;
-	private Date[] dateOptions;
+	private DateInformation[] dateOptions;
 
 	public Select[] getSelectOptions() {
 		return this.selectOptions;
@@ -31,11 +33,11 @@ public class AdditionalInformation {
 		this.textOptions = textOptions;
 	}
 
-	public Date[] getDateOptions() {
+	public DateInformation[] getDateOptions() {
 		return this.dateOptions;
 	}
 
-	public void setDateOptions(Date[] dateOptions) {
+	public void setDateOptions(DateInformation[] dateOptions) {
 		this.dateOptions = dateOptions;
 	}
 
