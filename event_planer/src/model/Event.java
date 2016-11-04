@@ -1,11 +1,13 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 //contains informations about an event and an array of applications
 
 public class Event {
-	
+
 	private Organizer organizer;
 	private String title;
 	private String link;
@@ -16,9 +18,8 @@ public class Event {
 	private Date deadline;
 	private int minParticipants = 0;
 	private int maxParticipants = 0;
-	private AdditionalInformation additionalInformation;
-	private Application[] applications;
-
+	private AdditionalInformation additionalInformation= new AdditionalInformation();
+	private List<Application> applications = new ArrayList<Application>();
 
 	public Organizer getOrganizer() {
 		return organizer;
@@ -27,7 +28,7 @@ public class Event {
 	public void setOrganizer(Organizer organizer) {
 		this.organizer = organizer;
 	}
-	
+
 	public String getTitle() {
 		return this.title;
 	}
@@ -79,7 +80,7 @@ public class Event {
 	public void setDeadline(Date deadline) {
 		this.deadline = deadline;
 	}
-	
+
 	public int getMinParticipants() {
 		return this.minParticipants;
 	}
@@ -104,79 +105,81 @@ public class Event {
 		this.additionalInformation = additionalInformation;
 	}
 
-	public Application[] getApplications() {
+	public List<Application> getApplications() {
 		return this.applications;
 	}
 
-	public void setApplications(Application[] applications) {
-		this.applications = applications;
+	public boolean removeApplication(Application oldApplication) {
+		return applications.remove(oldApplication);
 	}
 
 	/**
 	 * 
 	 * needs to generate an unique link
+	 * 
 	 * @param title
 	 * @param location
 	 * @param date
 	 */
 	public Event(Organizer organizer, String title, Location location, Date eventDate) {
 
-		this.link=Functions.randomString(15);
-		//TODO check DB if link is unique
-		
-		this.organizer=organizer;
-		this.title=title;
-		this.location=location;
-		this.eventDate=eventDate;
-		additionalInformation=new AdditionalInformation();
+		this.link = Functions.randomString(15);
+		// TODO check DB if link is unique
+
+		this.organizer = organizer;
+		this.title = title;
+		this.location = location;
+		this.eventDate = eventDate;
+		EventUserControl.getInstance().addEvent(this);
 	}
 
 	/**
 	 * 
-	 * @param reason ->why cancel the event?
+	 * @param reason
+	 *            ->why cancel the event?
 	 * 
-	 * @param message ->message to the subscribed participants
+	 * @param message
+	 *            ->message to the subscribed participants
 	 */
-	public void cancelEvent(String reason, String message) {
-		// TODO - remove event from DB
-		throw new UnsupportedOperationException();
-	}
+	public boolean cancelEvent(String reason, String message) {
 
-	//returns all registered participants
-	public Participant[] getListOfParticipants() {
-		Participant[] listOfParticipants= new Participant[applications.length];
-
-		for (int i=0; i<applications.length; i++){
-			listOfParticipants[i]=applications[i].getParticipant();	
+		// send Mail to participants and remove from event
+		for (Participant participant : getListOfParticipants()) {
+			Functions.sendEMail(eMail, participant.getEMail(), reason);
+			if(removeParticipant(participant)){
+				return false;
+			}
 		}
-		return listOfParticipants;
+		return EventUserControl.getInstance().removeEvent(this);
 	}
-	
-	
-	/**
-	 * 
-	 * @param application ->witch application should be removed?
-	 */
-	public void removeApplication(Application oldApplication) {
-		
-		applications=Functions.removeApplication(oldApplication, applications);
 
-	}
-	
-	/**
-	 * 
-	 * @param application ->witch application should be removed?
-	 */
-	public void removeParticipan(Participant participant) {
-		
-		for(Application application: applications){
-			if(application.getParticipant()==participant){
-				participant.setApplications(Functions.removeApplication(application, participant.getApplications()));
-				applications=Functions.removeApplication(application, applications);
-			}		
+	// returns all registered participants
+	public List<Participant> getListOfParticipants() {
+		List<Participant> participants = new ArrayList<Participant>();
+
+		for (Application application : applications) {
+			participants.add(application.getParticipant());
 		}
-
+		return participants;
 	}
 
+	/**
+	 * 
+	 * @param application
+	 *            ->witch application should be removed?
+	 */
+	public boolean removeParticipant(Participant participant) {
+
+		for (Application application : applications) {
+			if (application.getParticipant() == participant) {
+				if (participant.removeApplication(application)) {
+					if (applications.remove(application)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 }

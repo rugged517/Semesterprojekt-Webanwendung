@@ -1,21 +1,25 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //is an user that can subscribe to events and create events
 
 public class Organizer extends Participant {
 
-	private Event[] events;
+	private List<Event> events = new ArrayList<Event>();
 
-	public Event[] getEvents() {
+	public List<Event> getEvents() {
 		return this.events;
 	}
 
-	public void setEvents(Event[] events) {
-		this.events = events;
+	public boolean addEvent(Event newEvent){
+		return events.add(newEvent);	
 	}
 	
 	public Organizer(String eMail, String password) {
 		super(eMail, password);
+		EventUserControl.getInstance().addOrganizer(this);
 	}
 
 	/**
@@ -32,15 +36,7 @@ public class Organizer extends Participant {
 		//send Mail to participant and remove from event
 		for(Participant participant: participants){			
 			Functions.sendEMail(getEMail(), participant.getEMail(), reason);			
-			event.removeParticipan(participant);
-		}
-		
-		//remove event from events array
-		Event[] newEvents = new Event[events.length - 1];
-		for (Event oEvent : events) {
-			if (event != oEvent) {
-				newEvents[newEvents.length] = oEvent;
-			}
+			event.removeParticipant(participant);
 		}
 		
 	}

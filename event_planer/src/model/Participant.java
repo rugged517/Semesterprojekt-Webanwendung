@@ -1,19 +1,48 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //user that can only subscribe to events
 
 public class Participant extends User {
 
-
-	private Application[] applications;
+	private String name;
+	private Location location;
+	private String phoneNumber;
+	private List<Application> applications = new ArrayList<Application>();
 	private boolean[] checkboxValues;
 
-	public Application[] getApplications() {
-		return this.applications;
+	public String getName() {
+		return this.name;
 	}
 
-	public void setApplications(Application[] applications) {
-		this.applications = applications;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Location getLocation() {
+		return this.location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
+	}
+
+	public String getPhoneNumber() {
+		return this.phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	
+	public List<Application> getApplications() {
+		return this.applications;
+	}
+	
+	public boolean removeApplication(Application oldApplication) {
+		return applications.remove(oldApplication);
 	}
 	
 	public boolean[] getCheckboxValues() {
@@ -26,6 +55,7 @@ public class Participant extends User {
 
 	public Participant(String eMail, String password) {
 		super(eMail, password);
+		EventUserControl.getInstance().addParticipant(this);
 	}
 	
 	/**
@@ -35,9 +65,9 @@ public class Participant extends User {
 	 * 
 	 * @param oldApplication ->witch application should be removed?
 	 */
-	public void signOutFromApplication(String reason, Application oldApplication){
+	public boolean signOutFromApplication(String reason, Application oldApplication){
 		oldApplication.signOut(reason);
-		applications=Functions.removeApplication(oldApplication, applications);
+		return applications.remove(oldApplication);
 		
 	}
 	
