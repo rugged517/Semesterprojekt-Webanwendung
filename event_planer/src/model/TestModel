@@ -1,0 +1,300 @@
+package model;
+
+import static org.junit.Assert.*;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import org.junit.Test;
+
+public class TestModel {
+
+	@Test
+	public void testUser() {
+
+		String email = "email";
+		String password = "passwort";
+
+		User user = new User(email, password);
+		assertEquals(email, user.getEMail());
+		assertEquals(password, user.getPassword());
+
+		email = "emailNew";
+		user.setEMail(email);
+		assertEquals(email, user.getEMail());
+
+		password = "passwortNew";
+		user.setPassword(password);
+		assertEquals(password, user.getPassword());
+
+		assertTrue(user.isCorrectPassword(password));
+	}
+
+	@Test
+	public void testLocation() {
+
+		String company = "company";
+		String name = "name";
+		String street = "street";
+		String postcode = "postcode";
+		String city = "city";
+
+		Location location = new Location(company, name, street, postcode, city);
+
+		assertEquals(company, location.getCompany());
+		assertEquals(name, location.getName());
+		assertEquals(street, location.getStreet());
+		assertEquals(postcode, location.getPostcode());
+		assertEquals(city, location.getCity());
+
+		company = "companyNew";
+		location.setCompany(company);
+		assertEquals(company, location.getCompany());
+
+		name = "nameNew";
+		location.setName(name);
+		assertEquals(name, location.getName());
+
+		street = "streetNew";
+		location.setStreet(street);
+		assertEquals(street, location.getStreet());
+
+		postcode = "postcodeNew";
+		location.setPostcode(postcode);
+		assertEquals(postcode, location.getPostcode());
+
+		city = "cityNew";
+		location.setCity(city);
+		assertEquals(city, location.getCity());
+
+	}
+
+	@Test
+	public void testPersonalInformation() throws ParseException {
+		int[] selectValueIds = { 1, 2, 3 };
+		String[] textValues = { "Test Text 1", "Test Text 2", "Test Text 3" };
+		int[] checkboxValueIds = { 1, 2, 3 };
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date eventDate = sdf.parse("21/12/2012");
+		// Date[] dateValues = {};
+
+		PersonalInformation personalInformation = new PersonalInformation();
+
+		personalInformation.setSelectValueIds(selectValueIds);
+		assertEquals(selectValueIds, personalInformation.getSelectValueIds());
+
+		personalInformation.setTextValues(textValues);
+		assertEquals(textValues, personalInformation.getTextValues());
+
+		personalInformation.setCheckboxValueIds(checkboxValueIds);
+		assertEquals(checkboxValueIds, personalInformation.getCheckboxValueIds());
+
+		// personalInformation.setDateValues(dateValues);
+
+	}
+
+	@Test
+	public void testApplication() throws ParseException {
+		Participant participant = new Participant("eMail", "password");
+
+		Organizer organizer = new Organizer("eMail", "password");
+
+		String company = "company";
+		String name = "name";
+		String street = "street";
+		String postcode = "postcode";
+		String city = "city";
+		Location location = new Location(company, name, street, postcode, city);
+
+		PersonalInformation personallInformation;
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date eventDate = sdf.parse("21/12/2012");
+
+		Event event = new Event(organizer, "title", location, eventDate);
+		Application application = new Application(participant, event);
+
+		String title_get = event.getTitle();
+		Event eventNew_get = application.getEvent();
+		assertEquals(title_get, eventNew_get.getTitle());
+
+		// location is null -- set?
+		// assertEquals(location, application.getLocation());
+
+		assertEquals(participant, application.getParticipant());
+		assertEquals(event, application.getEvent());
+
+		Event eventNew_Set = new Event(organizer, "titleNew", location, eventDate);
+		application.setEvent(eventNew_Set);
+
+		String title_set = eventNew_Set.getTitle();
+		Event eventNew_Set_temp = application.getEvent();
+		assertEquals(title_set, eventNew_Set_temp.getTitle());
+
+		application.signOut("Test Exit");
+		// remove in application müsste dann nicht mehr vorhanden sein oder?
+		eventNew_Set_temp = application.getEvent();
+		assertEquals(title_set, eventNew_Set_temp.getTitle());
+
+	}
+
+	@Test
+	public void testParticipant() throws ParseException {
+
+		String company = "company";
+		String name = "name";
+		String street = "street";
+		String postcode = "postcode";
+		String city = "city";
+		Location location = new Location(company, name, street, postcode, city);
+
+		List<Application> applications = new ArrayList<Application>();
+
+		Participant participant = new Participant("eMail1", "password1");
+		Organizer organizer = new Organizer("eMail", "password");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date eventDate = sdf.parse("21/12/2012");
+		Event event_1 = new Event(organizer, "title1", location, eventDate);
+		Application application_1 = new Application(participant, event_1);
+
+		Participant participant_2 = new Participant("eMail2", "password2");
+		Event event_2 = new Event(organizer, "title2", location, eventDate);
+		Application application_2 = new Application(participant_2, event_2);
+
+		applications.add(application_1);
+		applications.add(application_2);
+
+		boolean[] checkboxValues = { true, false, true };
+
+		participant.setName("name");
+		assertEquals("name", participant.getName());
+
+		assertEquals("eMail1", participant.getEMail());
+		assertEquals("password1", participant.getPassword());
+
+		String phoneNumber = "04421-37389";
+		participant.setPhoneNumber(phoneNumber);
+		assertEquals(phoneNumber, participant.getPhoneNumber());
+
+		participant.setLocation(location);
+		assertEquals(location, participant.getLocation());
+
+		// setApplication ?
+		List<Application> application_3 = participant.getApplications();
+		// assertEquals(application_3, participant.getApplications());
+
+		// removeApplication test
+
+		participant.setCheckboxValues(checkboxValues);
+		assertEquals(checkboxValues, participant.getCheckboxValues());
+
+		// signOutFromApplication
+	}
+
+	@Test
+	public void testOrganizer() throws ParseException {
+		Organizer organizer = new Organizer("eMail", "password");
+
+		String company = "company";
+		String name = "name";
+		String street = "street";
+		String postcode = "postcode";
+		String city = "city";
+		Location location = new Location(company, name, street, postcode, city);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date eventDate = sdf.parse("21/12/2012");
+		Event event_1 = new Event(organizer, "title1", location, eventDate);
+		Event event_2 = new Event(organizer, "title2", location, eventDate);
+
+		organizer.addEvent(event_1);
+		List<Event> events = new ArrayList<Event>();
+		events.add(event_1);
+		assertEquals(events, organizer.getEvents());
+
+		organizer.addEvent(event_2);
+		events.add(event_2);
+		assertEquals(events, organizer.getEvents());
+
+		// removeParticipansFromEvent
+	}
+
+	@Test
+	public void testEvent() throws ParseException {
+		Organizer organizer = new Organizer("eMail", "password");
+
+		String company = "company";
+		String name = "name";
+		String street = "street";
+		String postcode = "postcode";
+		String city = "city";
+		Location location = new Location(company, name, street, postcode, city);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date eventDate = sdf.parse("21/12/2012");
+		String title = "title";
+		Event event = new Event(organizer, title, location, eventDate);
+		
+		assertEquals(organizer, event.getOrganizer());
+		
+		Organizer organizerNew = new Organizer("eMailNew", "passwordNew");
+		event.setOrganizer(organizerNew);
+		assertEquals(organizerNew, event.getOrganizer());
+		
+		assertEquals(title, event.getTitle());
+		
+		String text = "text";
+		event.setText(text);
+		assertEquals(text, event.getText());
+		
+		//durch Organizer nicht Email schon vorhanden?
+		event.setEMail("email");
+		assertEquals("email", event.getEMail());
+		
+		assertEquals(location, event.getLocation());
+		
+		company = "company_New";
+		name = "name_New";
+		street = "street_New";
+		postcode = "postcode_New";
+		city = "city_New";
+		Location locationNew = new Location(company, name, street, postcode, city);
+		event.setLocation(locationNew);
+		assertEquals(locationNew, event.getLocation());
+		
+		assertEquals(eventDate, event.getDate());
+		
+		java.util.Date eventDate_New = sdf.parse("05/04/20126");
+		event.setDate(eventDate_New);
+		assertEquals(eventDate_New, event.getDate());
+		
+		event.setDeadline(eventDate_New);
+		assertEquals(eventDate_New, event.getDeadline());
+		
+		assertEquals(0, event.getMinParticipants());
+		event.setMinParticipants(2);
+		assertEquals(2, event.getMinParticipants());
+		
+		assertEquals(0, event.getMaxParticipants());
+		event.setMaxParticipants(4);
+		assertEquals(4, event.getMaxParticipants());
+		
+		//setAdditionalInformation Constructor AdditionalInformation?
+		//getAdditionalInformation
+		
+		//getApplications - set?
+		//removeApplication
+		
+		//cancelEvent
+		
+		//getListOfParticipants
+		
+		//removeParticipant
+		
+	}
+}
