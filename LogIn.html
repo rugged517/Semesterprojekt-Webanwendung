@@ -4,7 +4,8 @@
 		<title>Log In Page</title>
 	</header>
 	<body>
-		<form action="login" method="post">
+		<!-- <a href="${pageContext.request.contextPath}/LogInServlet">Login</a> -->
+	<form>
    <table>
    <tr>
       <td><font face="verdana" size="2px">E-Mail:</font></td>
@@ -25,6 +26,5 @@
 					   /></td>
    </tr>
    </table>
-      <input type="submit" value="Login">
+      <input type="submit" action="${pageContext.request.contextPath}/LogInServlet" method="post">
 </form>
-		
