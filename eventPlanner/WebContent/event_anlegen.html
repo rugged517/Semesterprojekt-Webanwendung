@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href="sticky-footer-navbar.css" rel="stylesheet">
+  
+</head>
+<body>
+
+
+<!-- Fixierte Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Navigation ein-/ausblenden</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Semesterprojekt</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="page.html">Registration</a></li>
+            <li><a href="event_liste.html">Event-Liste</a></li>
+            <li class="active"><a href="event_anlegen.html">Event Anlegen</a></li>
+            <li><a href="event_anzeige.html">Event Anzeige</a></li>
+            <li><a href="profil_anzeige.html">Profil Anzeige</a></li> 
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>  
+    </nav>
+
+
+
+    <!-- Seiteninhalt -->
+    <div class="container">
+  
+      <div class="page-header">
+        <h1>Event Anlegen</h1>		
+
+            <p></p>  
+            <label for="titel_event">Kontaktdaten</label>        
+            
+            <div class="form-group">
+              <input type="vorname" placeholder="Kontakt Name" class="form-control">
+            </div>    
+            <div class="form-group">
+              <input type="vorname" placeholder="Email" class="form-control">
+            </div>            
+            <div class="form-group">
+              <input type="text" placeholder="Straße" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="PLZ" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Ort" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="vorname" placeholder="Telefon Fest" class="form-control">
+            </div>
+
+			<label for="titel_event">Event Angaben</label>   
+			<div class="form-group">            
+				<div class="input-group date" data-provide="datepicker">
+    				<input type="text" class="form-control">
+    				<div class="input-group-addon">
+       				<span class="glyphicon glyphicon-th"></span>
+    				</div>
+				</div>
+			</div>
+			<div class="form-group">
+              <input type="text" placeholder="Uhrzeit" class="form-control">
+            </div>
+	   		<div class="form-group">
+	   			<label for="titel_event">Upload Datei zur Event-Beschreibung</label>  
+	   			<input type="file" style="width:400px">
+	   		</div>
+
+	   		<button type="submit" class="btn btn-success">Event anlegen</button>		           
+			</div> 
+	</div>
+
+	
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">Semesterprojekt 2016</p>
+      </div>
+    </footer>
+
+</body>
+</html>
