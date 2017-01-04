@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href="sticky-footer-navbar.css" rel="stylesheet">
+
+<style type="text/css">
+
+#map-canvas {
+	width: 700px;
+	height: 400px;
+}
+
+</style>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+<script type="text/javascript" src="CustomGoogleMapMarker.js"></script>
+
+<script type="text/javascript">
+
+function initialize() {
+
+	var myLatlng = new google.maps.LatLng(48.051224, 8.207117);
+	var mapOptions = {
+		zoom: 14,
+		center: myLatlng,
+		disableDefaultUI: true
+	}
+	
+	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	
+	
+	// Example standard marker
+	var marker = new google.maps.Marker({
+		position: myLatlng,
+		map: map,
+		title: 'Veranstaltungsort'
+	});
+	
+	/*
+	overlay = new CustomMarker(
+		myLatlng, 
+		map,
+		{
+			marker_id: '123'
+		}
+	);
+	*/
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+</head>
+<body>
+
+
+<!-- Fixierte Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Navigation ein-/ausblenden</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Semesterprojekt</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="page.html">Registration</a></li>
+            <li><a href="event_liste.html">Event-Liste</a></li>
+            <li><a href="event_anlegen.html">Event Anlegen</a></li>
+            <li class="active"><a href="event_anzeige.html">Event Anzeige</a></li>   
+            <li><a href="profil_anzeige.html">Profil Anzeige</a></li>        
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>  
+    </nav>
+
+
+
+    <!-- Seiteninhalt -->
+    <div class="container">
+  
+      <div class="page-header">
+      
+
+        <h1>Event Anzeige</h1> 
+        
+        <button type="submit" class="btn btn-danger" style="float: right;margin: 5px;">Event Löschen</button>	
+		<button type="submit" class="btn btn-primary" style="float: right;margin: 5px;">Event Bearbeiten</button>
+		<button type="submit" class="btn btn-primary" style="float: right;margin: 5px;">Excel Export Teilnehmer</button>
+
+            <p></p>
+            <p>Datum:</p>
+            <p>Uhrzeit:</p>
+   
+            <label for="titel_event">Kontaktdaten</label>        
+      
+            <p>Name</p>
+            <p>Telefon</p>
+            <p>Email</p>
+ 
+   			                
+            <label for="ti">Event Beschreibung</label>
+            <p><button type="submit" class="btn btn-default">Beschreibung anzeigen</button></p>
+            
+            
+            <label for="titel_event">Ortsangabe</label>
+            <p>Straße</p>
+            <p>PLZ Ort</p>
+                    
+           	<div id="map-canvas">
+			</div> 
+            
+            
+        
+		</div> 
+	   
+	</div>
+
+	
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">Semesterprojekt 2016</p>
+      </div>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href="sticky-footer-navbar.css" rel="stylesheet">
+
+
+</head>
+<body>
+
+
+<!-- Fixierte Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Navigation ein-/ausblenden</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Semesterprojekt</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="page.html">Registration</a></li>
+            <li><a href="event_liste.html">Event-Liste</a></li>
+            <li><a href="event_anlegen.html">Event Anlegen</a></li>
+            <li><a href="event_anzeige.html">Event Anzeige</a></li>
+            <li><a href="profil_anzeige.html">Profil Anzeige</a></li> 
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>  
+    </nav>
+
+
+
+    <!-- Seiteninhalt -->
+    <div class="container">
+  
+      <div class="page-header">
+        <h1>Event Anmeldung</h1>		
+
+            <p></p>  
+            <label for="titel_event">Kontaktdaten</label>        
+            
+            <div class="form-group">
+              <input type="text" placeholder="Titel" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Name" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="vorname" placeholder="Vorname" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="vorname" placeholder="Email" class="form-control">
+            </div>            
+            <div class="form-group">
+              <input type="text" placeholder="Straße" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="PLZ" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Ort" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="vorname" placeholder="Telefon Fest" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="text" placeholder="Telefon Mobil" class="form-control">
+            </div>     
+            <div class="form-group">
+              <input type="text" placeholder="Institution" class="form-control">
+            </div>
+			<div class="form-group">
+			   <label for="sel1">Anreise</label>
+			   <select class="form-control" id="sel1">
+				 <option>öffentlich</option>
+				 <option>eigenes Auto</option>
+				 <option>eigenes Auto mit Mitnahmebereitschaft</option>
+				 <option>Mitfahrgelegentheit gesucht</option>
+			    </select>
+			</div>            
+            <div class="form-group">
+              <input type="text" placeholder="Alter" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="vorname" placeholder="Teilnahme am Arbeitsplatz" class="form-control">
+            </div>
+                			
+			<div class="form-group">
+			   <label for="sel1">Mittagessen gewünscht</label>
+			   <select class="form-control" id="sel1">
+			     <option>Nein</option>
+				 <option>Menü 1</option>
+				 <option>Menü 2</option>
+				 <option>Menü 3</option>
+				 <option>Menü 4</option>
+			    </select>
+			</div>
+	
+			<div class="checkbox">
+			   <label><input type="checkbox">Ich bin damit einverstanden, dass meine Anmeldung auf einer für andere Teilnehmer einsehbaren Liste erscheint.</label>
+			</div>   
+			<div class="checkbox">
+			   <label><input type="checkbox">Dort darf auch meine Telefonnummer enthalten sein.</label>
+			</div>  
+			<div class="checkbox">
+			   <label><input type="checkbox">Dort darf auch meine Mailadresse enthalten sein.</label>
+			</div>  									
+            <button type="submit" class="btn btn-success">Anmelden</button>
+	  		
+		</div>
+	   
+   
+	   
+	</div>
+
+	
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">Semesterprojekt 2016</p>
+      </div>
+    </footer>
+
+</body>
+</html>
