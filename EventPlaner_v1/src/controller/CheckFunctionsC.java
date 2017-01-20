@@ -1,5 +1,10 @@
 package controller;
 
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalAccessor;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,8 +25,8 @@ public class CheckFunctionsC {
 	}
 
 	/**
-	 * @author Florian if input is int returns true, else returns false
-	 * @param str
+	 * @author Florian 
+	 * @return if input is int returns true, else returns false
 	 */
 	public static boolean checkInt(String str) {
 		if (str == null) {
@@ -47,4 +52,22 @@ public class CheckFunctionsC {
 		return true;
 	}
 
+	/**
+	 * @author Florian
+	 * @return if input is Date returns true, else returns false
+	 */
+	public static Date getDate(String str) {	
+
+		
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ISO_DATE_TIME;
+		try{
+	    TemporalAccessor accessor = timeFormatter.parse(str);
+	    return Date.from(Instant.from(accessor));
+		}catch (DateTimeParseException e){
+			return null;
+		}
+	    
+
+
+	}
 }

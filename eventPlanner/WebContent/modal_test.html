@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="js/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-combined.min.css">
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="css/sticky-footer-navbar.css">
+
+
+<style>
+.form-control {
+	display: block !IMPORTANT;
+	width: 100% !IMPORTANT;
+	height: 34px !IMPORTANT;
+	padding: 6px 12px !IMPORTANT;
+}
+
+.date-field {
+	height: 34px !IMPORTANT;
+	padding: 6px 12px !IMPORTANT;
+}
+
+.input-append {
+	display: inline-block !IMPORTANT;
+}
+
+textarea {
+	width: 100%;
+}
+
+.selectBtn {
+	flex: 1;
+	height: 35px;
+}
+
+.selectSpan {
+	display: flex;
+}
+
+.errorField {
+	border-color: red !IMPORTANT;
+	color: red !IMPORTANT;
+}
+
+.hideValues{
+	display: none;
+}
+</style>
+</head>
+<body>
+
+
+	<!-- Fixed Navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Navigation ein-/ausblenden</span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Semesterprojekt</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="page.html">Registration</a></li>
+					<li><a href="event_liste.html">Event-Liste</a></li>
+					<li class="active"><a href="event_anlegen.html">Event Anlegen</a></li>
+					<li><a href="event_anzeige.html">Event Anzeige</a></li>
+					<li><a href="profil_anzeige.html">Profil Anzeige</a></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+
+
+
+	<!-- Seiteninhalt -->
+	<div class="container">
+
+		<div class="page-header">
+					<button type="button" id="addCheckboxBtn" class="btn" onclick="javascript:$('#showModal').modal();">Show Modal!</button>
+
+
+		</div>
+	</div>
+
+
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">Semesterprojekt 2016</p>
+		</div>
+	</footer>
+<!-- Modal -->
+<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Vorschau</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body">
+      Test Text!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>

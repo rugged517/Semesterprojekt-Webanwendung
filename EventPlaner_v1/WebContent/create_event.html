@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="js/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-formstyle.min.css">
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="css/sticky-footer-navbar.css">
+<script type="text/javascript">
+	var startDate = createDateObj('_start');
+	var endDate = createDateObj('_end');
+	var deadDate = createDateObj('_dead');
+
+	function createDateObj(name) {
+		return {
+			id : name,
+			date : null
+		};
+	}
+	var nowTemp = new Date();
+	var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp
+			.getDate(), 0, 0, 0, 0);
+
+	window.onload = function() {
+		var dateArray = [ startDate, endDate, deadDate ];
+
+		dateArray.forEach(function(e) {
+			$('#in' + e.id).val('');
+			addDateFunction(e);
+		});
+
+	}
+
+	function addDateFunction(dateObj) {
+		$('#ev' + dateObj.id).datetimepicker({
+			weekStart : 1,
+			format : 'dd.MM.yyyy hh:mm',
+			pickSeconds : false,
+			startDate : now
+		}).on('changeDate', function(ev) {
+			dateObj.date = ev.date;
+			checkDate();
+		}).data('datetimepicker');
+
+	}
+
+	function checkDate() {
+		var error = null;
+		if (startDate.date != null) {
+			if (endDate.date != null) {
+				if (startDate.date >= endDate.date) {
+					error = 'Der ' + $('#lb_in_start').text()
+							+ ' muss vor dem ' + $('#lb_in_end').text()
+							+ ' liegen.';
+				}
+			}
+			if (deadDate.date != null) {
+				if (startDate.date < deadDate.date) {
+					error = 'Der ' + $('#lb_in_dead').text() + ' muss vor dem '
+							+ $('#lb_in_end').text() + ' liegen.';
+				}
+			}
+			if (startDate.date < now) {
+				error = 'Der ' + $('#lb_in_start').text()
+						+ ' muss in der Zukunft liegen.';
+			}
+			if (error == null) {
+				$('#info-alert').hide();
+				return true;
+			}
+
+		} else {
+			error = 'Der ' + $('#lb_in_start').text()
+					+ ' muss angegeben werden.';
+		}
+
+		$('#info-alert').text(error);
+		$('#info-alert').show();
+		return false;
+	}
+
+	$(document).ready(function() {
+		$('#info-form').submit(function() {
+			var error = 'Bitte überprüfend Sie die Eingaben.';
+			if (checkDate() && checkEMails()) {
+
+				$('#info-alert-submit').hide();
+				return true;
+
+			}
+			$('#info-alert-submit').text(error);
+			$('#info-alert-submit').show();
+			return false;
+		});
+		
+		$('#addedFields-form').submit(function() {		
+			return false;
+		});
+	});
+
+	function checkEMails() {
+		var eMails = 'task=checkEMails';
+		$('input[type=eMail]').each(
+				function() {
+					eMails = eMails + '&id=' + $(this).attr('id') + '&eMail='
+							+ $(this).val();
+					$(this).removeClass('errorField');
+				});
+		$.ajax({
+			type : 'POST',
+			url : 'CreateEvent',
+			dataType : 'xml',
+			data : eMails,
+			success : function(xml) {
+				$(xml).find("error").each(function() {
+					var id = $(this).text();
+					$('#' + id).addClass('errorField');
+				});
+			}
+		});
+	}
+</script>
+
+<style>
+.form-control {
+	display: block !IMPORTANT;
+	width: 100% !IMPORTANT;
+	height: 34px !IMPORTANT;
+	padding: 6px 12px !IMPORTANT;
+}
+
+.date-field {
+	height: 34px !IMPORTANT;
+	padding: 6px 12px !IMPORTANT;
+}
+
+.input-append {
+	display: inline-block !IMPORTANT;
+}
+
+textarea {
+	width: 100%;
+}
+
+.selectBtn {
+	flex: 1;
+	height: 35px;
+}
+
+.selectSpan {
+	display: flex;
+}
+
+.errorField {
+	border-color: red !IMPORTANT;
+	color: red !IMPORTANT;
+}
+
+.hideValues{
+	display: none;
+}
+</style>
+</head>
+<body>
+
+
+	<!-- Fixed Navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+					data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Navigation ein-/ausblenden</span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Semesterprojekt</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="page.html">Registration</a></li>
+					<li><a href="event_liste.html">Event-Liste</a></li>
+					<li class="active"><a href="event_anlegen.html">Event Anlegen</a></li>
+					<li><a href="event_anzeige.html">Event Anzeige</a></li>
+					<li><a href="profil_anzeige.html">Profil Anzeige</a></li>
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+
+
+
+	<!-- Seiteninhalt -->
+	<div class="container">
+
+		<div class="page-header">
+			<form id="info-form" role="form" action="CreateEvent" method="post">
+				<h1>Event Anlegen</h1>
+				<h2>Eventdaten</h2>
+
+				<div class="form-group">
+					<label for="ev_title">Veranstaltungs Name</label><input id="ev_title" type="text"
+						placeholder="Veranstaltungs Name" class="form-control" required>
+				</div>
+				<div class="form-group">
+					<label for="ev_contact">Kontaktperson</label><input id="ev_contact" type="text"
+						placeholder="Kontaktperson" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_eMail">Kontakt E-Mail</label><input id="ev_eMail" type="eMail"
+						placeholder="E-Mail" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_phonenumber">Kontakt Telefonnummer</label><input id="ev_phonenumber" type="tel"
+						placeholder="Telefon" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_street">Unternehmen</label><input id="ev_company" type="text"
+						placeholder="Unternehmen" class="form-control" required>
+				</div>
+				<div class="form-group">
+					<label for="ev_street">Straße</label><input id="ev_street" type="text" placeholder="Straße"
+						class="form-control" required>
+				</div>
+				<div class="form-group">
+					<label for="ev_postcode">PLZ</label><input id="ev_postcode" type="text" placeholder="PLZ"
+						class="form-control" required>
+				</div>
+				<div class="form-group">
+					<label for="ev_city">Ort</label><input id="ev_city" type="text" placeholder="Ort"
+						class="form-control" required>
+				</div>
+				<div class="form-group">
+					<div style="display: none" id="info-alert" class="alert alert-danger col-sm-12"></div>
+					<div id="ev_start" class="input-append date">
+						<label for="in_start" id="lb_in_start">Veranstaltungsbeginn</label> <input class="date-field"
+							id="in_start" type="text" required readonly> <span class="add-on date-field">
+							<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+					<div id="ev_end" class="input-append date">
+						<label for="in_end" id="lb_in_end">Veranstaltungsende</label> <input class="date-field"
+							id="in_end" type="text" required readonly> <span class="add-on date-field"> <i
+							data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+					<div id="ev_dead" class="input-append date">
+						<label for="in_dead" id="lb_in_dead">Anmeldeschluss</label> <input class="date-field"
+							id="in_dead" type="text" required readonly> <span class="add-on date-field"> <i
+							data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="ev_text">Beschreibungstext</label>
+					<textarea rows="5" cols="50" id="ev_text" name="ev_text" required></textarea>
+				</div>
+				<button type="button" id="addCheckboxBtn" class="btn btn-info" onclick="">Vorschau der
+					Eventseite</button>
+				</form>
+				<hr>
+				<h2>Benötigte Angaben der Teilnehmer</h2>
+				<p>Sie können individuelle Eingabefelder mit Fragen and Ihre Teilnehmer hinzufügen. Zum
+					Beispiel Fragen über bisherige Erfahrungen.</p>
+					<form id="addedFields-form" role="form" onsubmit="showSubsWindow()" method="post">
+				<script type="text/javascript">
+					var fieldID = 0;
+
+					function addField(type, question) {
+						fieldID++;
+						$('#addedFields')
+								.append(
+										'<div class="form-group addedField" id="af-'+fieldID+'"><h4><button type="button" class="btn btn-danger" onclick="$(\'#af-'
+												+ fieldID+ '\').remove()">X</button>&nbsp;<span id="af-Type-'+fieldID+'">'
+												+ type+ '</span></h4><div style="display: none" id="info-alert-af-'+fieldID+'" class="alert alert-danger col-sm-12">Bitte überprüfen Sie die Eingaben.</div><br><span id="fs-'+fieldID+'"><label for="FQ-'+fieldID+'">Frage</label><input id="FQ-'+fieldID+'" type="text" value="'+question+'" placeholder="Frage" class="form-control" required>'
+												+ '<label for="requiredCB-'+fieldID+'"><input type="checkbox" name="requiredCB-'+fieldID+'" id="requiredCB-'+fieldID+'" value="true">&nbsp;Pflichtangabe</label><br>'
+												+ '</span><hr></div>');
+
+					}
+
+					function addText(question) {
+						addField('Textfeld', question);
+						$('#fs-' + fieldID)
+								.append(
+								'<label for="textMax-'+fieldID+'">Minimale Antwortlänge (0 = keine Pflichtangabe)</label><input id="textMin-'+fieldID+'" min="0" type="number" placeholder="Minimale Antwortlänge" value="0" class="form-control"required onchange="javascript: $(\'#textMax-' + fieldID+'\').attr(\'min\', $(\'#textMin-' + fieldID+'\').val());">'+
+										'<label for="textMax-'+fieldID+'">Maximale Antwortlänge (0 = unbegrenzt)</label><input id="textMax-'+fieldID+'" min="0" type="number" placeholder="Maximale Antwortlänge" value="0" class="form-control"required>'
+												+ '<label for="textareaCB-'+fieldID+'"><input type="checkbox" name="textareaCB-'+fieldID+'" id="textareaCB-'+fieldID+'" value="true">&nbsp;Als Textarea darstellen</label>');
+						$('#requiredCB-' + fieldID).attr('onchange','reqMiMa(\'text\', \'' + fieldID + '\')');
+						
+						return fieldID;
+					}
+
+					function addDate(question) {
+						addField('Datum', question);
+						$('#fs-' + fieldID)
+								.append(
+										'Datumsbereich angeben?<br>'
+												+ '<div style="display: none" id="info-alert-'+fieldID+'"class="alert alert-danger col-sm-12">Das kleinste Datum muss kleiner sein als das größte Datum! Z.B. kleinstes Datum=1990 und größtes Datum=2017</div>'
+												+ '<label for="minDateBox-'+fieldID+'"><input type="checkbox" name="minDateBox-'
+												+ fieldID+ '" id="minDateBox-'+ fieldID+ '" value="true" onclick="addMiMaDate(\''+ fieldID
+												+ '\', \'Min\')">&nbsp;kleinstes Datum</label>'+ '<div class="form-group" id="dateAddMinS-'+fieldID+'"></div><label for="maxDateBox-'+fieldID+'"><input type="checkbox" name="maxDateBox-'+ fieldID+ '" id="maxDateBox-'+ fieldID
+												+ '" value="true" onclick="addMiMaDate(\''+ fieldID+ '\', \'Max\')">&nbsp;größtes Datum</label>'+ '<div class="form-group" id="dateAddMaxS-'+fieldID+'"></div>');
+						localStorage.setItem('dateMin-' + fieldID, '');
+						localStorage.setItem('dateMax-' + fieldID, '');
+						return fieldID;
+					}
+
+					function addMiMaDate(fID, miMa) {
+						var el = $('#' + 'date' + miMa + '-' + fID);
+						if (el.length) {
+							localStorage.setItem('date' + miMa + '-' + fID, null);
+							el.remove();
+							$('#info-alert-' + fID).hide();
+						} else {
+							$('#dateAdd' + miMa + 'S-' + fID)
+									.append(
+											'<div id="date'+miMa+'-'+fID+'" class="input-append date">'
+													+ '<input class="date-field" id="d'+miMa+'-'+fID+'" type="text" required readonly>'
+													+ '<span class="add-on date-field">'
+													+ '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>'
+													+ '</span>' + '</div>');
+							addMinMaxDateFunction('date' + miMa + '-' + fID,fID);
+						}
+					}
+
+					function addMinMaxDateFunction(id, fID) {
+						$('#' + id).datetimepicker({
+							weekStart : 1,
+							format : 'dd.MM.yyyy hh:mm',
+							pickSeconds : false,
+							startDate : now
+						}).on('changeDate', function(ev) {
+							localStorage.setItem(id, new Date(ev.date));
+							checkAddedDates(fID);
+						}).data('datetimepicker');
+
+					}
+					function checkAddedDates(fID) {
+						var minDate = new Date(localStorage.getItem('dateMin-'+ fID));
+						var maxDate = new Date(localStorage.getItem('dateMax-'+ fID));
+
+						if (minDate != null && maxDate != null) {
+							if (minDate >= maxDate) {
+								$('#info-alert-' + fID).show();
+								return false;
+							}
+						}
+						$('#info-alert-' + fID).hide();
+						return true;
+					}
+
+					function addSelect(question) {
+						addField('Dropdownliste', question);
+						addOptions(question);
+						return fieldID;
+					}
+
+					function addCheckbox(question) {
+						addField('Checkboxen', question);
+						$('#fs-' + fieldID).append('<p>Bei Auswahl von Mindest Auswahl = 1 und Maximale gleichzeitige Auswahl = 1 werden Radiobuttons anstelle von Checkboxen dargestellt.</p><label for="checkboxMin-'+fieldID+'">Mindest Auswahl (0 = Es muss keine Option ausgewählt werden / keine Pflichtangabe)</label><input id="checkboxMin-'+fieldID+'" min="0" type="number" value="0" class="form-control"required>'
+												+ '<label for="checkboxMax-'+fieldID+'">Maximale gleichzeitige Auswahl (0 = Alle können gleichzeitig ausgewählt werden)</label><input id="checkboxMax-'+fieldID+'" min="0" type="number" value="0" class="form-control"required>');
+						$('#requiredCB-' + fieldID).attr('onchange','reqMiMa(\'checkbox\', \'' + fieldID + '\')');
+						addOptions(question);
+					}
+
+					function reqMiMa(type, fID) {
+						if ($('#requiredCB-' + fID).prop('checked')) {
+							$('#'+type+'Min-' + fID).attr('min', '1');
+							if (parseFloat($('#'+type+'Min-' + fID).val()) < 1) {
+								$('#'+type+'Min-' + fID).val('1');
+							}
+						} else {
+							$('#'+type+'Min-' + fID).attr('min', '0');
+						}
+					}
+
+
+					function addOptions(question) {
+						$('#fs-' + fieldID)
+								.append(
+										'Antwortmöglichkeiten:'
+												+ '<div id="selectOptions-'+fieldID+'" class="form-group"></div><p><button type="button" class="btn btn-success" onclick="addSelectOpField(\''+ fieldID+ '\', \'\')">Weitere Antwort</button></p>'
+												+ '<div style="display: none" id="info-alert-'+fieldID+'"class="alert alert-danger col-sm-12">Es müssen mindestens zwei Antwortmöglichkeiten zur Auswahl stehen.</div>');
+						if (question == '') {
+							addSelectOpField(fieldID, '');
+							addSelectOpField(fieldID, '');
+						}
+					}
+
+					var selOpNr = 0;
+					function addSelectOpField(fID, value) {
+						selOpNr++;
+						$('#selectOptions-' + fID)
+								.append(
+										'<span id="selOpNr-'+selOpNr+'" class="selectSpan"><input class="form-control SelectOp-'+fID+'" type="text" value="'+value+'" placeholder="Antwort" required><button type="button" class="btn btn-danger selectBtn" onclick="removeSelOp(\''
+												+ fID+ '\', \''+ selOpNr+ '\')">X</button>');
+						$('#info-alert-' + fID).hide();
+					}
+
+					function removeSelOp(fID, selOpNr) {
+						if ($('.SelectOp-' + fID).length > 2) {
+							$('#selOpNr-' + selOpNr).remove()
+						} else {
+							$('#info-alert-' + fID).show();
+						}
+					}
+
+					var eMailID = 0;
+					function addEMail() {
+						eMailID++;
+						$('#addedEMails')
+								.append(
+										'<span id="ae-'+eMailID+'" class="selectSpan"><input class="form-control AE" id="aeIn-'+eMailID+'" type="eMail" placeholder="E-Mail" required><button type="button" class="btn btn-danger selectBtn" onclick="javascript: $(\'#ae-'+ eMailID+ '\').remove()">X</button>');
+					}
+
+					function showSubsWindow(){
+							
+						$('#modal-body').html(getAddedFieldsStatus('buildAddedField'));
+						$('#showModal').modal();
+
+					}
+
+					function getAddedFieldsStatus(task) {
+					var result=true;
+					var newHTML='';
+						$('.addedField').each(function() {
+						var fID= $(this).attr('id').replace('af-','')
+							var field={
+								id:fID,
+								question:$('#FQ-'+fID).val(),
+								isRequired:$('#requiredCB-' + fID).prop('checked'),
+								type:$('#af-Type-'+fID).html()
+							}
+
+if(field.type=='Textfeld'){
+field.type='text';
+field.min=$('#textMin-'+fID).val();
+field.max=$('#textMax-'+fID).val();
+field.isTextarea=$('#textareaCB-' + fID).prop('checked');
+}else if(field.type=='Datum'){
+field.type='date';
+field.minDate=localStorage.getItem('dateMin-'+ fID);
+field.maxDate=localStorage.getItem('dateMax-'+ fID);
+if(field.minDate!=''){
+field.minDate=new Date(field.minDate).toISOString();
+}
+if(field.maxDate!=''){
+field.maxDate=new Date(field.maxDate).toISOString();
+}
+}else {
+field.type='select';
+field.options=new Array();
+
+$('.SelectOp-'+fID).each(function() {
+	field.options.push($(this).val());
+});
+if(field.type=='Checkboxen'){
+field.type='checkbox';
+field.min=$('#checkboxMin-'+fID).val();
+field.max=$('#checkboxMax-'+fID).val();
+}
+}
+
+field.task='buildAddedField';
+		$.ajax({
+			type : 'POST',
+			url : 'CreateEvent',
+			dataType : 'text',
+			async: false,
+			data : field,
+			success : function(response, status, xhr){ 
+				var ct = xhr.getResponseHeader("content-type") || "";
+				if (ct.indexOf('html') > -1) {
+				newHTML=newHTML+response;
+				$('#af-Type-'+ fID).removeClass('errorField');
+				$('#info-alert-af-'+ fID).hide();
+    }
+    if (ct.indexOf('xml') > -1) {
+					$('#af-Type-'+ fID).addClass('errorField').focus();
+					$('#info-alert-af-'+ fID).show();
+					result=false;
+    } 
+			}
+		});
+						});
+
+if(result){
+return newHTML;
+}
+      return result;
+
+						
+					}
+					
+					
+				</script>
+				<div id="addedFields"></div>
+				<p>
+					<button type="button" id="addTextBtn" class="btn" onclick="addText('')">Textfeld
+						hinzufügen</button>
+					<button type="button" id="addDateBtn" class="btn" onclick="addDate('')">Datum
+						hinzufügen</button>
+					<button type="button" id="addSelectBtn" class="btn" onclick="addSelect('', '')">Dropdownliste
+						hinzufügen</button>
+					<button type="button" id="addCheckboxBtn" class="btn" onclick="addCheckbox('', '')">Checkboxen
+						hinzufügen</button>
+				</p>
+				<button type="submit" id="addCheckboxBtn" class="btn btn-info" onclick="">Vorschau
+					der Anmeldung</button>
+				<br>
+				</form>
+				<hr>
+				<h2>Teilnehmer einladen</h2>
+				<p>
+					Sie können hier eMail Addressen angeben an die automatisch eine Einladung zu dieser
+					Veranstaltung versendet wird.<br>
+				</p>
+				<form id="addedFields-form" role="form" action="CreateEvent" method="post">
+				<div id="addedEMails"></div>
+				<br>
+				<button type="button" id="addCheckboxBtn" class="btn" onclick="addEMail()">Weitere
+					E-Mail angeben</button>
+				<br>
+				</form>
+				<hr>
+				<div style="display: none" id="info-alert-submit" class="alert alert-danger col-sm-12"></div>
+				<p>Nach dem Klick auf den Button "Event anlegen" werden Ihre Eingaben geprüft und
+					anschließend die Veranstaltung angelegt. Ihnen wir dann der Link zur Übersichtsseite der
+					Veranstaltung angezeigt. Über diesen Link können Sie weitere Teilnehmer einladen.</p>
+				<button type="button" class="btn btn-success">Event anlegen</button>
+
+		</div>
+	</div>
+
+
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">Semesterprojekt 2016</p>
+		</div>
+	</footer>
+<!-- Modal -->
+<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Vorschau</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
