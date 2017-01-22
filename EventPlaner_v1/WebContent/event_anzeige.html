@@ -14,51 +14,16 @@
 
 <style type="text/css">
 
-#map-canvas {
-	width: 700px;
-	height: 400px;
-}
+#map_canvas {
+		width: 700px;
+		height: 400px;
+	}
 
 </style>
+<script src = "http://maps.google.com/maps/api/js?sensor=false"></script>
+<script src="js/CustomGoogleMapMarker.js"></script>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-<script type="text/javascript" src="CustomGoogleMapMarker.js"></script>
 
-<script type="text/javascript">
-
-function initialize() {
-
-	var myLatlng = new google.maps.LatLng(48.051224, 8.207117);
-	var mapOptions = {
-		zoom: 14,
-		center: myLatlng,
-		disableDefaultUI: true
-	}
-	
-	var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-	
-	
-	// Example standard marker
-	var marker = new google.maps.Marker({
-		position: myLatlng,
-		map: map,
-		title: 'Veranstaltungsort'
-	});
-	
-	/*
-	overlay = new CustomMarker(
-		myLatlng, 
-		map,
-		{
-			marker_id: '123'
-		}
-	);
-	*/
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-</script>
 
 </head>
 <body>
@@ -98,7 +63,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
         <h1>Event Anzeige</h1> 
         
-        <button type="submit" class="btn btn-danger" style="float: right;margin: 5px;">Event Löschen</button>	
+        <button type="submit" class="btn btn-danger" style="float: right;margin: 5px;">Event LÃ¶schen</button>	
 		<button type="submit" class="btn btn-primary" style="float: right;margin: 5px;">Event Bearbeiten</button>
 		<button type="submit" class="btn btn-primary" style="float: right;margin: 5px;">Excel Export Teilnehmer</button>
 
@@ -118,19 +83,20 @@ google.maps.event.addDomListener(window, 'load', initialize);
             
             
             <label for="titel_event">Ortsangabe</label>
-            <p>Straße</p>
-            <p>PLZ Ort</p>
-                    
-           	<div id="map-canvas">
-			</div> 
-            
-            
-        
-		</div> 
-	   
-	</div>
-
-	
+            <p>StraÃŸe</p>
+            <p>PLZ und Ort</p>
+               
+			<div id="map_canvas"></div>
+			
+			</br>
+			<a href="https://rabdc.bahn.de/bin/query.exe/dn?revia=yes&existOptimizePrice=1&country=DEU&dbkanal_007=L01_S01_D001_qf-bahn-svb-kl2_lz03&
+			start=1&S=Singen&REQ0JourneyStopsSID=&
+			Z=Furtwangen+R%C3%B6ssleplatz&REQ0JourneyStopsZID=&d
+			ate=So%2C+22.01.17&time=21%3A34&timesel=depart&returnDate=&returnTime=&returnTimesel=depart&optimize=0&auskunft_travelers_number=1&tariffTravellerType.1=E&tariffTravellerReductionClass.1=0&tariffClass=2&externRequest=yes&HWAI=JS%21js%3Dyes%21ajax%3Dyes%21&cc=1&"
+			class="btn btn-primary">
+			Mit der Bahn</a>
+			
+			
     <footer class="footer">
       <div class="container">
         <p class="text-muted">Semesterprojekt 2016</p>
