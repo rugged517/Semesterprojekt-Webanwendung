@@ -18,6 +18,8 @@ public class ShowEvents extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("<b>Served at: </b>").append(request.getContextPath());
+		RequestDispatcher view = request.getRequestDispatcher("../../WebContent/event_anzeige.html");
+		view.forward(request, response);
 	}
 
 	/**
