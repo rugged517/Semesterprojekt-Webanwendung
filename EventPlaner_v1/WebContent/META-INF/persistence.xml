@@ -5,7 +5,8 @@
  xsi:shemaLocation="http://java.sun.com/xml/ns/persistence
  	http://java.sun.com/xml/ns/persistence/persistence_2_1.xsd"
  version="2.1">
- <persistence-unit name="eventPlanner" transaction-type="JTA">
+ <persistence-unit name="eventPlanner" transaction-type="JTA"> 
+    <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
  	<description>Event Planer</description>
  	<provider>org.hibernate.ejb.HibernatePersistence</provider>
  	<jta-data-source></jta-data-source>
@@ -27,6 +28,5 @@
  	<exclude-unlisted-classes>true</exclude-unlisted-classes>
  	<shared-cache-mode>ALL</shared-cache-mode>
  	<validation-mode>AUTO</validation-mode>
-    <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
 </persistence-unit>
 </persistence>
