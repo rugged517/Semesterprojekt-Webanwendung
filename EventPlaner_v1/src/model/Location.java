@@ -3,12 +3,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.*;
-
-import org.apache.commons.dbcp.managed.LocalXAConnectionFactory;
 //contains all information about a location
 @Entity
 @Table (name = "Location")
-@PersistenceContext( unitName = "eventPlanner")
+@PersistenceContext (unitName = "EventPlaner_v1")
 public class Location implements java.io.Serializable {
 	
 	private int Id;

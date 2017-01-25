@@ -9,12 +9,14 @@ import Hilfsklassen.ApplicationPK;
 @Entity
 @Table (name = "Application")
 @IdClass (ApplicationPK.class)
+@PersistenceContext (unitName = "EventPlaner_v1")
 public class Application implements java.io.Serializable {
 
 	private Participant participant; //Who wants to participate?
 	private Location location; //Where is the participant from?
 	private PersonalInformation personallInformation; //Answers to the personal information questions.
 	private Event event;
+	private EntityManager em;
 	
 	@Id
 	public String getEmail(){

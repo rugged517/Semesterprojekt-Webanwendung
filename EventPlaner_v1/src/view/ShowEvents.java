@@ -2,6 +2,7 @@ package view;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +36,7 @@ public class ShowEvents extends HttpServlet {
 	 * 
 	 * @param eMail eMail=UserID
 	 * @param getCreatedEvents true= show all created Events
-	 * false= show all participated events 
+	 * false= show all participated eventsï¿½
 	 */
 	public void getEventData(String eMail, boolean getCreatedEvents) {
 		// TODO - implement ShowEvents.getEventData

@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table (name = "AdditionalInformation")
-@PersistenceContext (unitName = "eventPlanner")
+@PersistenceContext (unitName = "EventPlaner_v1")
 public class AdditionalInformation implements java.io.Serializable {
 
 	private Select[] selectOptions;

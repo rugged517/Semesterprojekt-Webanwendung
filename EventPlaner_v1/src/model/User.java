@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table (name = "User")
-@PersistenceContext(unitName = "eventPlanner")
+@PersistenceContext (unitName = "EventPlaner_v1")
 public class User implements java.io.Serializable {
 
 	protected String eMail;

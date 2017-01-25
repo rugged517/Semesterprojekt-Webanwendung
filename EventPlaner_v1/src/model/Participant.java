@@ -7,7 +7,7 @@ import java.util.List;
 //user that can only subscribe to events
 @Entity
 @Table (name = "Participant")
-@PersistenceContext(unitName = "eventPlanner")
+@PersistenceContext (unitName = "EventPlaner_v1")
 public class Participant extends User implements java.io.Serializable{
 
 	protected String name;
@@ -70,7 +70,8 @@ public class Participant extends User implements java.io.Serializable{
 	public Participant(String eMail, String password) {
 		super(eMail, password);
 		//check in DB if table participants contains eMail
-		if(em.find(Participant.class, eMail))  {
+		Participant participant = em.find(Participant.class, eMail);
+		if(participant != null) {
 			// TODO Do something if Participant exists in DB
 		}
 		

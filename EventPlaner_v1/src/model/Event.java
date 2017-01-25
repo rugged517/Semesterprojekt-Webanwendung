@@ -10,7 +10,7 @@ import Hilfsklassen.ApplicationPK;
 //contains informations about an event and an array of applications
 @Entity
 @Table (name = "Event")
-@PersistenceContext (unitName = "eventPlanner")
+@PersistenceContext (unitName = "EventPlaner_v1")
 public class Event implements java.io.Serializable {
 
 	private Participant organizer;
@@ -133,6 +133,7 @@ public class Event implements java.io.Serializable {
 		em.remove(application);
 		return applications.remove(application);
 		}
+		return false;
 	}
 
 	/**

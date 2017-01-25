@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence 
+ xmlns="http://java.sun.com/xml/ns/persistence"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:shemaLocation="http://java.sun.com/xml/ns/persistence
+ 	http://java.sun.com/xml/ns/persistence/persistence_2_1.xsd"
+ version="2.1">
+ <persistence-unit name="EventPlaner_v1" transaction-type="JTA"> 
+ 	<description>EventTaxi</description>
+ 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+ 	<jta-data-source></jta-data-source>
+ 	<jar-file> </jar-file>
+ 	
+ 	<class>de.model.AdditionalInformation</class>
+ 	<class>de.model.Application</class>
+ 	<class>de.model.Event</class>
+ 	<class>de.model.Location</class>
+ 	<class>de.model.Organizer</class>
+ 	<class>de.model.Participant</class>
+ 	<class>de.model.User</class>
+ 	<class>de.model.Information</class>
+ 	<class>de.model.PersonalInformation</class>
+ 	<class>de.Hilfsklassen.ApplicationPK</class>
+ 	<class>de.Hilfsklassen.InformationPK</class>
+ 	<class>de.Hilfsklassen.PersonamInformationPK</class>
+ 	
+ 	<exclude-unlisted-classes>true</exclude-unlisted-classes>
+ 	<shared-cache-mode>ALL</shared-cache-mode>
+ 	<validation-mode>AUTO</validation-mode>
+ 	<properties>
+    	<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+	</properties>
+</persistence-unit>
+</persistence>
