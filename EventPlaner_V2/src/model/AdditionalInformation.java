@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table (name = "AdditionalInformation")
-@PersistenceContext (unitName = "eventPlanner")
+@PersistenceContext (unitName = "EventPlaner_V2")
 public class AdditionalInformation implements java.io.Serializable {
 
 	private Select[] selectOptions;
@@ -47,7 +47,8 @@ public class AdditionalInformation implements java.io.Serializable {
 		this.id = id;
 	}
 	
-	@OneToOne(cascade = {CascadeType.ALL})
+	//Target Ebtity is unknown
+	//@OneToOne(targetEntity = .class ,cascade = {CascadeType.ALL})
 	public Select[] getSelectOptions() {
 		return this.selectOptions;
 	}
@@ -55,8 +56,8 @@ public class AdditionalInformation implements java.io.Serializable {
 	public void setSelectOptions(Select[] selectOptions) {
 		this.selectOptions = selectOptions;
 	}
-
-	@OneToOne(cascade = {CascadeType.ALL})
+	
+	//@OneToOne(targetEntity = .class ,cascade = {CascadeType.ALL})
 	public Checkbox[] getCheckboxOptions() {
 		return this.checkboxOptions;
 	}
@@ -65,7 +66,7 @@ public class AdditionalInformation implements java.io.Serializable {
 		this.checkboxOptions = checkboxOptions;
 	}
 
-	@OneToOne(cascade = {CascadeType.ALL})
+	//@OneToOne(targetEntity = .class ,cascade = {CascadeType.ALL})
 	public Text[] getTextOptions() {
 		return this.textOptions;
 	}
@@ -74,7 +75,7 @@ public class AdditionalInformation implements java.io.Serializable {
 		this.textOptions = textOptions;
 	}
 
-	@OneToOne(cascade = {CascadeType.ALL})
+	//@OneToOne(targetEntity = .class ,cascade = {CascadeType.ALL})
 	public DateInformation[] getDateOptions() {
 		return this.dateOptions;
 	}

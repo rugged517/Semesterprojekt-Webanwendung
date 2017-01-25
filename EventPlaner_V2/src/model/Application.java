@@ -1,9 +1,12 @@
 package model;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Table;
 
 import Hilfsklassen.ApplicationPK;
@@ -12,6 +15,7 @@ import Hilfsklassen.ApplicationPK;
 @Entity
 @Table (name = "Application")
 @IdClass (ApplicationPK.class)
+@PersistenceContext (unitName = "EventPlaner_V2")
 public class Application implements java.io.Serializable {
 
 	private Participant participant; //Who wants to participate?
@@ -23,6 +27,7 @@ public class Application implements java.io.Serializable {
 	private EntityManager em;
 	
 	@Id
+	//@OneToOne(mappedBy = "User", cascade = {CascadeType.ALL})
 	public String getEmail(){
 		return eMail;
 	}

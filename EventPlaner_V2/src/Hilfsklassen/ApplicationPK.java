@@ -11,23 +11,23 @@ public final class ApplicationPK implements java.io.Serializable {
 	private Location location; //Where is the participant from?
 	private PersonalInformation personallInformation; //Answers to the personal information questions.
 	private Event event;
-	private String EMail;
+	private String email;
 	private String eventLink;
 	
 
 	public ApplicationPK(){
 		
 	}
-	/*public ApplicationPK(Participant participant, Event event) {
+	public ApplicationPK(Participant participant, Event event) {
 		this.participant=participant;
 		this.event=event;
-	}*/
+	}
 	
 	public String getEmail(){
-		return EMail;
+		return email;
 	}
 	public void setEmail(String EMail){
-		this.EMail = EMail;
+		this.email = EMail;
 	}
 	public String getEventLink(){
 		return eventLink;
@@ -42,10 +42,10 @@ public final class ApplicationPK implements java.io.Serializable {
 			return false;
 		ApplicationPK refApplPK = (ApplicationPK) refObj;
 		
-		return this.EMail == refApplPK.EMail && this.eventLink == refApplPK.eventLink;
+		return this.email == refApplPK.email && this.eventLink == refApplPK.eventLink;
 	}
 	
 	public int hashCode(){
-		return (int)(EMail.hashCode() ^ eventLink.hashCode());
+		return (int)(email.hashCode() ^ eventLink.hashCode());
 	}
 }

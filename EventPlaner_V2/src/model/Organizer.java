@@ -10,24 +10,21 @@ import javax.persistence.*;
 //is an user that can subscribe to events and create events
 @Entity
 @Table (name = "Organizer") //INHERITANCE??? 
-@PersistenceContext (unitName = "eventPlanner")
+@PersistenceContext (unitName = "EventPlaner_V2")
 public class Organizer extends Participant implements Serializable {
 
 	private List<Event> events = new ArrayList<Event>();
 	private String title;
 	private Date date;
-	public EntityManager em;
-	private Participant participant;
-	private String email = participant.getEMail();
+	private EntityManager em;
 	
 	@Id
 	public String getEmail(){
-		return email;
+		return this.getEMail();
 	}
 	
 	public void setEmail(String eMail){
 		this.setEMail(eMail);
-		this.email = eMail;
 	}
 	@OneToMany (mappedBy = "organizer")
 	public List<Event> getEvents() {

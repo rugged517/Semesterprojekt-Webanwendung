@@ -10,7 +10,7 @@ import Hilfsklassen.ApplicationPK;
 //contains informations about an event and an array of applications
 @Entity
 @Table (name = "Event")
-@PersistenceContext (unitName = "eventPlanner")
+@PersistenceContext (unitName = "EventPlaner_V2")
 public class Event implements java.io.Serializable {
 
 	private Participant organizer;
@@ -133,6 +133,7 @@ public class Event implements java.io.Serializable {
 		em.remove(application);
 		return applications.remove(application);
 		}
+		return false;
 	}
 
 	/**
@@ -144,7 +145,6 @@ public class Event implements java.io.Serializable {
 	 * @param date
 	 */
 	public Event(Organizer organizer, String title, Location location, Date eventDate) {
-		
 		setLink(Functions.randomString(15));
 		Event event = (Event) em.find(Event.class, link);
 		setOrganizer(organizer);

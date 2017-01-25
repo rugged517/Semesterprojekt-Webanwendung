@@ -4,11 +4,17 @@ import java.util.Collection;
 
 import javax.persistence.*;
 
-import org.apache.commons.dbcp.managed.LocalXAConnectionFactory;
+/* 
+ * For What ist this Import for?
+ * 
+ * import org.apache.commons.dbcp.managed.LocalXAConnectionFactory;
+ *
+ */
+
 //contains all information about a location
 @Entity
 @Table (name = "Location")
-@PersistenceContext( unitName = "eventPlanner")
+@PersistenceContext( unitName = "EventPlaner_V2")
 public class Location implements java.io.Serializable {
 	
 	private int Id;

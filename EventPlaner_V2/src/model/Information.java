@@ -6,7 +6,7 @@ import Hilfsklassen.*;
 @Entity 
 @Table (name = "Information")
 @IdClass (InformationPK.class)
-@PersistenceContext(unitName = "eventPlanner")
+@PersistenceContext(unitName = "EventPlaner_V2")
 public class Information implements java.io.Serializable {
 	
 	private String description; //description for the input field (checkbox, date usw.)
