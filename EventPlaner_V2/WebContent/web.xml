@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+ <servlet>
+   <display-name>Registration</display-name>
+   <servlet-name>Registration</servlet-name>
+   <servlet-class>view.Registration.java</servlet-class>
+   <load-on-startup>2</load-on-startup>
+ </servlet>
+ <servlet-mapping>
+   <servlet-name>Registration</servlet-name>
+   <url-pattern>/Registration</url-pattern>
+ </servlet-mapping>
+ 
+ <servlet>
+   <display-name>ActivateUser</display-name>
+   <servlet-name>ActivateUser</servlet-name>
+   <servlet-class>view.ActivateUser.java</servlet-class>
+ </servlet>  
+ 
+ <servlet>
+   <display-name>AddParticipantToEvent</display-name>
+   <servlet-name>AddParticipantToEvent</servlet-name>
+   <servlet-class>view.AddParticipantToEvent.java</servlet-class>
+ </servlet>  
+ 
+ <servlet>
+   <display-name>CreateEevent</display-name>
+   <servlet-name>CreateEevent</servlet-name>
+   <servlet-class>view.CreateEevent.java</servlet-class>
+ </servlet>
+ 
+ <servlet>
+   <display-name>DeleteUser</display-name>
+   <servlet-name>DeleteUser</servlet-name>
+   <servlet-class>view.DeleteUser.java</servlet-class>
+ </servlet>        
+ 
+ <servlet>
+   <display-name>EditEvent</display-name>
+   <servlet-name>EditEvent</servlet-name>
+   <servlet-class>view.EditEvent.java</servlet-class>
+ </servlet>        
+  
+ <servlet>
+   <display-name>EditProfile</display-name>
+   <servlet-name>EditProfile</servlet-name>
+   <servlet-class>view.EditProfile.java</servlet-class>
+ </servlet>        
+ 
+ <servlet>
+   <display-name>EditUserStatus</display-name>
+   <servlet-name>EditUserStatus</servlet-name>
+   <servlet-class>view.EditUserStatus.java</servlet-class>
+ </servlet>        
+ 
+ <servlet>
+   <display-name>ExcelExport</display-name>
+   <servlet-name>ExcelExport</servlet-name>
+   <servlet-class>view.ExcelExport.java</servlet-class>
+ </servlet>        
+  
+ <servlet>
+   <display-name>ResetPassword</display-name>
+   <servlet-name>ResetPassword</servlet-name>
+   <servlet-class>view.ResetPassword.java</servlet-class>
+ </servlet>        
+  
+ <servlet>
+   <display-name>SendMessage</display-name>
+   <servlet-name>SendMessage</servlet-name>
+   <servlet-class>view.SendMessage.java</servlet-class>
+ </servlet> 
+   
+ <servlet>
+   <display-name>ShowAndEditParticipants</display-name>
+   <servlet-name>ShowAndEditParticipants</servlet-name>
+   <servlet-class>view.ShowAndEditParticipants.java</servlet-class>
+ </servlet> 
+ 
+  <servlet>
+   <display-name>ShowEventDetails</display-name>
+   <servlet-name>ShowEventDetails</servlet-name>
+   <servlet-class>view.ShowEventDetails.java</servlet-class>
+ </servlet>        
+  
+ <servlet>
+   <display-name>ShowEvents</display-name>
+   <servlet-name>ShowEvents</servlet-name>
+   <servlet-class>view.ShowEvents.java</servlet-class>
+ </servlet> 
+   
+ <servlet>
+   <display-name>ShowProfile</display-name>
+   <servlet-name>ShowProfile</servlet-name>
+   <servlet-class>view.ShowProfile.java</servlet-class>
+ </servlet> 
+   
+ <servlet>
+   <display-name>SubscribeToEvent</display-name>
+   <servlet-name>SubscribeToEvent</servlet-name>
+   <servlet-class>view.SubscribeToEvent.java</servlet-class>
+ </servlet> 
+   
+ <servlet>
+   <display-name>XMLFunctions</display-name>
+   <servlet-name>XMLFunctions</servlet-name>
+   <servlet-class>view.XMLFunctions.java</servlet-class>
+ </servlet> 
+ 
+<servlet>
+	<display-name>Login</display-name>
+	<servlet-name>Login</servlet-name>
+	<servlet-class>view.Login.java</servlet-class>
+	<load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+	<servlet-name>Login</servlet-name>
+	<url-pattern>/Login</url-pattern>
+</servlet-mapping>
+
+</web-app>

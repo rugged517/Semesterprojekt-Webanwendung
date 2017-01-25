@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="EventPlaner_V2">
+ 	<description>Event Planer</description>
+ 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+ 	<jta-data-source></jta-data-source>
+ 	
+ 	<class>model.AdditionalInformation</class>
+ 	<class>model.Application</class>
+ 	<class>model.Event</class>
+ 	<class>model.Location</class>
+ 	<class>model.Organizer</class>
+ 	<class>model.Participant</class>
+ 	<class>model.User</class>
+ 	<class>model.Information</class>
+ 	<class>model.PersonalInformation</class>
+
+ 	<exclude-unlisted-classes>true</exclude-unlisted-classes>
+ 	<shared-cache-mode>ALL</shared-cache-mode>
+ 	<validation-mode>AUTO</validation-mode>
+    <properties>
+    	<property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+	</properties>
+</persistence-unit>
+</persistence>
