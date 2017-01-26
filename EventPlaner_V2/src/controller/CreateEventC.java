@@ -7,35 +7,11 @@ import java.util.Set;
 public class CreateEventC {
 
 	/**
-	 * returns event link
-	 */
-	public String createEmptyEvent() {
-		// TODO - implement CreateEvent.createEmptyEvent
-		throw new UnsupportedOperationException();
-	}
-
-	/**
+	 * Checks if input string is correct E-Mail
 	 * 
-	 * @param values
-	 * @param eventLink
+	 * @author Florian
+	 * @return true if input is correct
 	 */
-	public boolean updateEventSettings(String[] values, String eventLink) {
-		// TODO - implement CreateEvent.updateEventSettings
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param eventLink
-	 * @param description
-	 * @param required
-	 * @param type
-	 */
-	public boolean saveAdditionalFields(String eventLink, String description, boolean required, int type) {
-		// TODO - implement CreateEvent.saveAdditionalFields
-		throw new UnsupportedOperationException();
-	}
-
 	public static boolean isEMail(String eMail) {
 		if (CheckFunctionsC.checkEMail(eMail)) {
 			return true;
@@ -44,9 +20,7 @@ public class CreateEventC {
 	}
 
 	/**
-	 * <p>
 	 * Checks if all required values for additional textfields are correct.
-	 * </p>
 	 * 
 	 * @author Florian
 	 * @return true if all values are correct
@@ -66,9 +40,7 @@ public class CreateEventC {
 	}
 
 	/**
-	 * <p>
 	 * Checks if all required values for additional datefields are correct.
-	 * </p>
 	 * 
 	 * @author Florian
 	 * @return true if all values are correct
@@ -105,10 +77,8 @@ public class CreateEventC {
 	}
 
 	/**
-	 * <p>
 	 * Checks if all select/checkbox values for additional datefields are
 	 * correct and unique
-	 * </p>
 	 * 
 	 * @author Florian
 	 * @return true if all values are correct

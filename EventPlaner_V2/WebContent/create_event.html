@@ -16,12 +16,15 @@
 	var endDate = createDateObj('_end');
 	var deadDate = createDateObj('_dead');
 
+	//stores required informations for datefields
 	function createDateObj(name) {
 		return {
 			id : name,
 			date : null
 		};
 	}
+	
+	//setup datefields on page load
 	var nowTemp = new Date();
 	var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp
 			.getDate(), 0, 0, 0, 0);
@@ -49,6 +52,7 @@
 
 	}
 
+	//compares datevalues and shows response on error
 	function checkDate() {
 		var error = null;
 		if (startDate.date != null) {
@@ -84,6 +88,7 @@
 		return false;
 	}
 
+	//setup form submit functions
 	$(document).ready(function() {
 		$('#info-form').submit(function() {
 			var error = 'Bitte überprüfend Sie die Eingaben.';
@@ -97,12 +102,13 @@
 			$('#info-alert-submit').show();
 			return false;
 		});
-		
-		$('#addedFields-form').submit(function() {		
+
+		$('#addedFields-form').submit(function() {
 			return false;
 		});
 	});
 
+	//send eMail input to server to check if input is real eMail
 	function checkEMails() {
 		var eMails = 'task=checkEMails';
 		$('input[type=eMail]').each(
@@ -161,7 +167,7 @@ textarea {
 	color: red !IMPORTANT;
 }
 
-.hideValues{
+.hideValues {
 	display: none;
 }
 </style>
@@ -178,7 +184,7 @@ textarea {
 					<span class="sr-only">Navigation ein-/ausblenden</span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span> <span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#">Semesterprojekt</a>
+				<a class="navbar-brand" href="#">Event Taxi</a>
 			</div>
 			<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav">
@@ -262,12 +268,12 @@ textarea {
 				</div>
 				<button type="button" id="addCheckboxBtn" class="btn btn-info" onclick="">Vorschau der
 					Eventseite</button>
-				</form>
-				<hr>
-				<h2>Benötigte Angaben der Teilnehmer</h2>
-				<p>Sie können individuelle Eingabefelder mit Fragen and Ihre Teilnehmer hinzufügen. Zum
-					Beispiel Fragen über bisherige Erfahrungen.</p>
-					<form id="addedFields-form" role="form" onsubmit="showSubsWindow()" method="post">
+			</form>
+			<hr>
+			<h2>Benötigte Angaben der Teilnehmer</h2>
+			<p>Sie können individuelle Eingabefelder mit Fragen and Ihre Teilnehmer hinzufügen. Zum
+				Beispiel Fragen über bisherige Erfahrungen.</p>
+			<form id="addedFields-form" role="form" onsubmit="showSubsWindow()" method="post">
 				<script type="text/javascript">
 					var fieldID = 0;
 
@@ -276,8 +282,10 @@ textarea {
 						$('#addedFields')
 								.append(
 										'<div class="form-group addedField" id="af-'+fieldID+'"><h4><button type="button" class="btn btn-danger" onclick="$(\'#af-'
-												+ fieldID+ '\').remove()">X</button>&nbsp;<span id="af-Type-'+fieldID+'">'
-												+ type+ '</span></h4><div style="display: none" id="info-alert-af-'+fieldID+'" class="alert alert-danger col-sm-12">Bitte überprüfen Sie die Eingaben.</div><br><span id="fs-'+fieldID+'"><label for="FQ-'+fieldID+'">Frage</label><input id="FQ-'+fieldID+'" type="text" value="'+question+'" placeholder="Frage" class="form-control" required>'
+												+ fieldID
+												+ '\').remove()">X</button>&nbsp;<span id="af-Type-'+fieldID+'">'
+												+ type
+												+ '</span></h4><div style="display: none" id="info-alert-af-'+fieldID+'" class="alert alert-danger col-sm-12">Bitte überprüfen Sie die Eingaben.</div><br><span id="fs-'+fieldID+'"><label for="FQ-'+fieldID+'">Frage</label><input id="FQ-'+fieldID+'" type="text" value="'+question+'" placeholder="Frage" class="form-control" required>'
 												+ '<label for="requiredCB-'+fieldID+'"><input type="checkbox" name="requiredCB-'+fieldID+'" id="requiredCB-'+fieldID+'" value="true">&nbsp;Pflichtangabe</label><br>'
 												+ '</span><hr></div>');
 
@@ -287,11 +295,18 @@ textarea {
 						addField('Textfeld', question);
 						$('#fs-' + fieldID)
 								.append(
-								'<label for="textMax-'+fieldID+'">Minimale Antwortlänge (0 = keine Pflichtangabe)</label><input id="textMin-'+fieldID+'" min="0" type="number" placeholder="Minimale Antwortlänge" value="0" class="form-control"required onchange="javascript: $(\'#textMax-' + fieldID+'\').attr(\'min\', $(\'#textMin-' + fieldID+'\').val());">'+
-										'<label for="textMax-'+fieldID+'">Maximale Antwortlänge (0 = unbegrenzt)</label><input id="textMax-'+fieldID+'" min="0" type="number" placeholder="Maximale Antwortlänge" value="0" class="form-control"required>'
+										'<label for="textMax-'+fieldID+'">Minimale Antwortlänge (0 = keine Pflichtangabe)</label><input id="textMin-'
+												+ fieldID
+												+ '" min="0" type="number" placeholder="Minimale Antwortlänge" value="0" class="form-control"required onchange="javascript: $(\'#textMax-'
+												+ fieldID
+												+ '\').attr(\'min\', $(\'#textMin-'
+												+ fieldID
+												+ '\').val());">'
+												+ '<label for="textMax-'+fieldID+'">Maximale Antwortlänge (0 = unbegrenzt)</label><input id="textMax-'+fieldID+'" min="0" type="number" placeholder="Maximale Antwortlänge" value="0" class="form-control"required>'
 												+ '<label for="textareaCB-'+fieldID+'"><input type="checkbox" name="textareaCB-'+fieldID+'" id="textareaCB-'+fieldID+'" value="true">&nbsp;Als Textarea darstellen</label>');
-						$('#requiredCB-' + fieldID).attr('onchange','reqMiMa(\'text\', \'' + fieldID + '\')');
-						
+						$('#requiredCB-' + fieldID).attr('onchange',
+								'reqMiMa(\'text\', \'' + fieldID + '\')');
+
 						return fieldID;
 					}
 
@@ -302,9 +317,20 @@ textarea {
 										'Datumsbereich angeben?<br>'
 												+ '<div style="display: none" id="info-alert-'+fieldID+'"class="alert alert-danger col-sm-12">Das kleinste Datum muss kleiner sein als das größte Datum! Z.B. kleinstes Datum=1990 und größtes Datum=2017</div>'
 												+ '<label for="minDateBox-'+fieldID+'"><input type="checkbox" name="minDateBox-'
-												+ fieldID+ '" id="minDateBox-'+ fieldID+ '" value="true" onclick="addMiMaDate(\''+ fieldID
-												+ '\', \'Min\')">&nbsp;kleinstes Datum</label>'+ '<div class="form-group" id="dateAddMinS-'+fieldID+'"></div><label for="maxDateBox-'+fieldID+'"><input type="checkbox" name="maxDateBox-'+ fieldID+ '" id="maxDateBox-'+ fieldID
-												+ '" value="true" onclick="addMiMaDate(\''+ fieldID+ '\', \'Max\')">&nbsp;größtes Datum</label>'+ '<div class="form-group" id="dateAddMaxS-'+fieldID+'"></div>');
+												+ fieldID
+												+ '" id="minDateBox-'
+												+ fieldID
+												+ '" value="true" onclick="addMiMaDate(\''
+												+ fieldID
+												+ '\', \'Min\')">&nbsp;kleinstes Datum</label>'
+												+ '<div class="form-group" id="dateAddMinS-'+fieldID+'"></div><label for="maxDateBox-'+fieldID+'"><input type="checkbox" name="maxDateBox-'
+												+ fieldID
+												+ '" id="maxDateBox-'
+												+ fieldID
+												+ '" value="true" onclick="addMiMaDate(\''
+												+ fieldID
+												+ '\', \'Max\')">&nbsp;größtes Datum</label>'
+												+ '<div class="form-group" id="dateAddMaxS-'+fieldID+'"></div>');
 						localStorage.setItem('dateMin-' + fieldID, '');
 						localStorage.setItem('dateMax-' + fieldID, '');
 						return fieldID;
@@ -313,7 +339,8 @@ textarea {
 					function addMiMaDate(fID, miMa) {
 						var el = $('#' + 'date' + miMa + '-' + fID);
 						if (el.length) {
-							localStorage.setItem('date' + miMa + '-' + fID, null);
+							localStorage.setItem('date' + miMa + '-' + fID,
+									null);
 							el.remove();
 							$('#info-alert-' + fID).hide();
 						} else {
@@ -324,7 +351,8 @@ textarea {
 													+ '<span class="add-on date-field">'
 													+ '<i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>'
 													+ '</span>' + '</div>');
-							addMinMaxDateFunction('date' + miMa + '-' + fID,fID);
+							addMinMaxDateFunction('date' + miMa + '-' + fID,
+									fID);
 						}
 					}
 
@@ -341,8 +369,10 @@ textarea {
 
 					}
 					function checkAddedDates(fID) {
-						var minDate = new Date(localStorage.getItem('dateMin-'+ fID));
-						var maxDate = new Date(localStorage.getItem('dateMax-'+ fID));
+						var minDate = new Date(localStorage.getItem('dateMin-'
+								+ fID));
+						var maxDate = new Date(localStorage.getItem('dateMax-'
+								+ fID));
 
 						if (minDate != null && maxDate != null) {
 							if (minDate >= maxDate) {
@@ -362,29 +392,33 @@ textarea {
 
 					function addCheckbox(question) {
 						addField('Checkboxen', question);
-						$('#fs-' + fieldID).append('<p>Bei Auswahl von Mindest Auswahl = 1 und Maximale gleichzeitige Auswahl = 1 werden Radiobuttons anstelle von Checkboxen dargestellt.</p><label for="checkboxMin-'+fieldID+'">Mindest Auswahl (0 = Es muss keine Option ausgewählt werden / keine Pflichtangabe)</label><input id="checkboxMin-'+fieldID+'" min="0" type="number" value="0" class="form-control"required>'
+						$('#fs-' + fieldID)
+								.append(
+										'<p>Bei Auswahl von Mindest Auswahl = 1 und Maximale gleichzeitige Auswahl = 1 werden Radiobuttons anstelle von Checkboxen dargestellt.</p><label for="checkboxMin-'+fieldID+'">Mindest Auswahl (0 = Es muss keine Option ausgewählt werden / keine Pflichtangabe)</label><input id="checkboxMin-'+fieldID+'" min="0" type="number" value="0" class="form-control"required>'
 												+ '<label for="checkboxMax-'+fieldID+'">Maximale gleichzeitige Auswahl (0 = Alle können gleichzeitig ausgewählt werden)</label><input id="checkboxMax-'+fieldID+'" min="0" type="number" value="0" class="form-control"required>');
-						$('#requiredCB-' + fieldID).attr('onchange','reqMiMa(\'checkbox\', \'' + fieldID + '\')');
+						$('#requiredCB-' + fieldID).attr('onchange',
+								'reqMiMa(\'checkbox\', \'' + fieldID + '\')');
 						addOptions(question);
 					}
 
 					function reqMiMa(type, fID) {
 						if ($('#requiredCB-' + fID).prop('checked')) {
-							$('#'+type+'Min-' + fID).attr('min', '1');
-							if (parseFloat($('#'+type+'Min-' + fID).val()) < 1) {
-								$('#'+type+'Min-' + fID).val('1');
+							$('#' + type + 'Min-' + fID).attr('min', '1');
+							if (parseFloat($('#' + type + 'Min-' + fID).val()) < 1) {
+								$('#' + type + 'Min-' + fID).val('1');
 							}
 						} else {
-							$('#'+type+'Min-' + fID).attr('min', '0');
+							$('#' + type + 'Min-' + fID).attr('min', '0');
 						}
 					}
-
 
 					function addOptions(question) {
 						$('#fs-' + fieldID)
 								.append(
 										'Antwortmöglichkeiten:'
-												+ '<div id="selectOptions-'+fieldID+'" class="form-group"></div><p><button type="button" class="btn btn-success" onclick="addSelectOpField(\''+ fieldID+ '\', \'\')">Weitere Antwort</button></p>'
+												+ '<div id="selectOptions-'+fieldID+'" class="form-group"></div><p><button type="button" class="btn btn-success" onclick="addSelectOpField(\''
+												+ fieldID
+												+ '\', \'\')">Weitere Antwort</button></p>'
 												+ '<div style="display: none" id="info-alert-'+fieldID+'"class="alert alert-danger col-sm-12">Es müssen mindestens zwei Antwortmöglichkeiten zur Auswahl stehen.</div>');
 						if (question == '') {
 							addSelectOpField(fieldID, '');
@@ -398,7 +432,10 @@ textarea {
 						$('#selectOptions-' + fID)
 								.append(
 										'<span id="selOpNr-'+selOpNr+'" class="selectSpan"><input class="form-control SelectOp-'+fID+'" type="text" value="'+value+'" placeholder="Antwort" required><button type="button" class="btn btn-danger selectBtn" onclick="removeSelOp(\''
-												+ fID+ '\', \''+ selOpNr+ '\')">X</button>');
+												+ fID
+												+ '\', \''
+												+ selOpNr
+												+ '\')">X</button>');
 						$('#info-alert-' + fID).hide();
 					}
 
@@ -415,89 +452,142 @@ textarea {
 						eMailID++;
 						$('#addedEMails')
 								.append(
-										'<span id="ae-'+eMailID+'" class="selectSpan"><input class="form-control AE" id="aeIn-'+eMailID+'" type="eMail" placeholder="E-Mail" required><button type="button" class="btn btn-danger selectBtn" onclick="javascript: $(\'#ae-'+ eMailID+ '\').remove()">X</button>');
+										'<span id="ae-'+eMailID+'" class="selectSpan"><input class="form-control AE" id="aeIn-'+eMailID+'" type="eMail" placeholder="E-Mail" required><button type="button" class="btn btn-danger selectBtn" onclick="javascript: $(\'#ae-'
+												+ eMailID
+												+ '\').remove()">X</button>');
 					}
 
-					function showSubsWindow(){
-							
-						$('#modal-body').html(getAddedFieldsStatus('buildAddedField'));
+					function showSubsWindow() {
+
+						$('#modal-body').html(
+								getAddedFieldsStatus('buildAddedField'));
 						$('#showModal').modal();
 
 					}
 
 					function getAddedFieldsStatus(task) {
-					var result=true;
-					var newHTML='';
-						$('.addedField').each(function() {
-						var fID= $(this).attr('id').replace('af-','')
-							var field={
-								id:fID,
-								question:$('#FQ-'+fID).val(),
-								isRequired:$('#requiredCB-' + fID).prop('checked'),
-								type:$('#af-Type-'+fID).html()
-							}
+						var result = true;
+						var newHTML = '';
+						$('.addedField')
+								.each(
+										function() {
+											var fID = $(this).attr('id')
+													.replace('af-', '')
+											var field = {
+												id : fID,
+												question : $('#FQ-' + fID)
+														.val(),
+												isRequired : $(
+														'#requiredCB-' + fID)
+														.prop('checked'),
+												type : $('#af-Type-' + fID)
+														.html()
+											}
 
-if(field.type=='Textfeld'){
-field.type='text';
-field.min=$('#textMin-'+fID).val();
-field.max=$('#textMax-'+fID).val();
-field.isTextarea=$('#textareaCB-' + fID).prop('checked');
-}else if(field.type=='Datum'){
-field.type='date';
-field.minDate=localStorage.getItem('dateMin-'+ fID);
-field.maxDate=localStorage.getItem('dateMax-'+ fID);
-if(field.minDate!=''){
-field.minDate=new Date(field.minDate).toISOString();
-}
-if(field.maxDate!=''){
-field.maxDate=new Date(field.maxDate).toISOString();
-}
-}else {
-field.type='select';
-field.options=new Array();
+											if (field.type == 'Textfeld') {
+												field.type = 'text';
+												field.min = $('#textMin-' + fID)
+														.val();
+												field.max = $('#textMax-' + fID)
+														.val();
+												field.isTextarea = $(
+														'#textareaCB-' + fID)
+														.prop('checked');
+											} else if (field.type == 'Datum') {
+												field.type = 'date';
+												field.minDate = localStorage
+														.getItem('dateMin-'
+																+ fID);
+												field.maxDate = localStorage
+														.getItem('dateMax-'
+																+ fID);
+												if (field.minDate != '') {
+													field.minDate = new Date(
+															field.minDate)
+															.toISOString();
+												}
+												if (field.maxDate != '') {
+													field.maxDate = new Date(
+															field.maxDate)
+															.toISOString();
+												}
+											} else {
+												field.type = 'select';
+												field.options = new Array();
 
-$('.SelectOp-'+fID).each(function() {
-	field.options.push($(this).val());
-});
-if(field.type=='Checkboxen'){
-field.type='checkbox';
-field.min=$('#checkboxMin-'+fID).val();
-field.max=$('#checkboxMax-'+fID).val();
-}
-}
+												$('.SelectOp-' + fID)
+														.each(
+																function() {
+																	field.options
+																			.push($(
+																					this)
+																					.val());
+																});
+												if (field.type == 'Checkboxen') {
+													field.type = 'checkbox';
+													field.min = $(
+															'#checkboxMin-'
+																	+ fID)
+															.val();
+													field.max = $(
+															'#checkboxMax-'
+																	+ fID)
+															.val();
+												}
+											}
 
-field.task='buildAddedField';
-		$.ajax({
-			type : 'POST',
-			url : 'CreateEvent',
-			dataType : 'text',
-			async: false,
-			data : field,
-			success : function(response, status, xhr){ 
-				var ct = xhr.getResponseHeader("content-type") || "";
-				if (ct.indexOf('html') > -1) {
-				newHTML=newHTML+response;
-				$('#af-Type-'+ fID).removeClass('errorField');
-				$('#info-alert-af-'+ fID).hide();
-    }
-    if (ct.indexOf('xml') > -1) {
-					$('#af-Type-'+ fID).addClass('errorField').focus();
-					$('#info-alert-af-'+ fID).show();
-					result=false;
-    } 
-			}
-		});
-						});
+											field.task = 'buildAddedField';
+											$
+													.ajax({
+														type : 'POST',
+														url : 'CreateEvent',
+														dataType : 'text',
+														async : false,
+														data : field,
+														success : function(
+																response,
+																status, xhr) {
+															var ct = xhr
+																	.getResponseHeader("content-type")
+																	|| "";
+															if (ct
+																	.indexOf('html') > -1) {
+																newHTML = newHTML
+																		+ response;
+																$(
+																		'#af-Type-'
+																				+ fID)
+																		.removeClass(
+																				'errorField');
+																$(
+																		'#info-alert-af-'
+																				+ fID)
+																		.hide();
+															}
+															if (ct
+																	.indexOf('xml') > -1) {
+																$(
+																		'#af-Type-'
+																				+ fID)
+																		.addClass(
+																				'errorField')
+																		.focus();
+																$(
+																		'#info-alert-af-'
+																				+ fID)
+																		.show();
+																result = false;
+															}
+														}
+													});
+										});
 
-if(result){
-return newHTML;
-}
-      return result;
+						if (result) {
+							return newHTML;
+						}
+						return result;
 
-						
 					}
-					
-					
 				</script>
 				<div id="addedFields"></div>
 				<p>
@@ -510,29 +600,29 @@ return newHTML;
 					<button type="button" id="addCheckboxBtn" class="btn" onclick="addCheckbox('', '')">Checkboxen
 						hinzufügen</button>
 				</p>
-				<button type="submit" id="addCheckboxBtn" class="btn btn-info" onclick="">Vorschau
-					der Anmeldung</button>
+				<button type="submit" id="addCheckboxBtn" class="btn btn-info" onclick="">Vorschau der
+					Anmeldung</button>
 				<br>
-				</form>
-				<hr>
-				<h2>Teilnehmer einladen</h2>
-				<p>
-					Sie können hier eMail Addressen angeben an die automatisch eine Einladung zu dieser
-					Veranstaltung versendet wird.<br>
-				</p>
-				<form id="addedFields-form" role="form" action="CreateEvent" method="post">
+			</form>
+			<hr>
+			<h2>Teilnehmer einladen</h2>
+			<p>
+				Sie können hier eMail Addressen angeben an die automatisch eine Einladung zu dieser
+				Veranstaltung versendet wird.<br>
+			</p>
+			<form id="addedFields-form" role="form" action="CreateEvent" method="post">
 				<div id="addedEMails"></div>
 				<br>
 				<button type="button" id="addCheckboxBtn" class="btn" onclick="addEMail()">Weitere
 					E-Mail angeben</button>
 				<br>
-				</form>
-				<hr>
-				<div style="display: none" id="info-alert-submit" class="alert alert-danger col-sm-12"></div>
-				<p>Nach dem Klick auf den Button "Event anlegen" werden Ihre Eingaben geprüft und
-					anschließend die Veranstaltung angelegt. Ihnen wir dann der Link zur Übersichtsseite der
-					Veranstaltung angezeigt. Über diesen Link können Sie weitere Teilnehmer einladen.</p>
-				<button type="button" class="btn btn-success">Event anlegen</button>
+			</form>
+			<hr>
+			<div style="display: none" id="info-alert-submit" class="alert alert-danger col-sm-12"></div>
+			<p>Nach dem Klick auf den Button "Event anlegen" werden Ihre Eingaben geprüft und
+				anschließend die Veranstaltung angelegt. Ihnen wir dann der Link zur Übersichtsseite der
+				Veranstaltung angezeigt. Über diesen Link können Sie weitere Teilnehmer einladen.</p>
+			<button type="button" class="btn btn-success">Event anlegen</button>
 
 		</div>
 	</div>
@@ -543,24 +633,24 @@ return newHTML;
 			<p class="text-muted">Semesterprojekt 2016</p>
 		</div>
 	</footer>
-<!-- Modal -->
-<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Vorschau</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body" id="modal-body">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
+	<!-- Modal -->
+	<div class="modal fade" id="showModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Vorschau</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body" id="modal-body"></div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 </body>

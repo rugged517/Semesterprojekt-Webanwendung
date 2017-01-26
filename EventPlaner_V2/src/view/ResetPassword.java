@@ -18,26 +18,23 @@ public class ResetPassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * Trys to send a password reset E-Mail. Returns false to html page if no E-Mail was send.
+	 * 
+	 * @author Florian
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		try {
-			//response.setContentType("text/xml;charset=UTF-8");
+			response.setContentType("text/xml;charset=UTF-8");
 			
 			PrintWriter writer = response.getWriter();
-			//writer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-			//writer.append("<response><startus>");
+			writer.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+			writer.append("<response><startus>");
 			
 			if (ResetPasswordC.sendResetEMail(request.getParameter("eMail"))) {
-				//writer.append("true</startus>");
-				
-				//TODO DELETE! Only for Demo!
-				writer.append("<link>"+ResetPasswordC.getPWLINK((request.getParameter("eMail")))+"</link>");
-
-								
+				writer.append("true</startus>");
+		
 			} else {
 				writer.append("false</startus>");
 			}

@@ -41,12 +41,10 @@ public class Registration extends HttpServlet {
 				writer.append("<error>").append(status[1]).append("</error>");
 			}
 
-			// TODO delete! Only for DEMO!
 			else {
 				writer.append("<code>").append(status[1]).append("</code>");
 
 			}
-			//
 
 			writer.append("</response>");
 

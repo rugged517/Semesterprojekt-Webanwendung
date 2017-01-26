@@ -9,21 +9,6 @@ public class LoginC {
 	 * @param eMail
 	 * @param password
 	 */
-	public boolean getUserStatus(String eMail, String password) {
-		// TODO - implement Login.getUserStatus
-		throw new UnsupportedOperationException();
-	}
-
-	public void sendCookie() {
-		// TODO - implement Login.sendCookie
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * 
-	 * @param eMail
-	 * @param password
-	 */
 	public static String tryLogin(String eMail, String password) {
 
 		String result= "noEMail";
@@ -40,6 +25,34 @@ public class LoginC {
 		}
 		return result;
 
+	}
+
+	
+	/**
+	 * 
+	 * checks if the sessionID is equal to the session ID from the DB
+	 * 
+	 * @author Florian
+	 * 
+	 * @param userID
+	 * @param sessionID
+	 */
+	public static String checkSessionID(String userID, String sessionID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	/**
+	 * 
+	 * Generates session ID and inserts it into DB
+	 * 
+	 * @author Florian
+	 * 
+	 * @param eMail
+	 */
+	public static String getSessionID(String eMail) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

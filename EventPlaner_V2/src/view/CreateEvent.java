@@ -17,6 +17,12 @@ import controller.CreateEventC;
 public class CreateEvent extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	
+	/**
+	 * Checks user input (E-Mails, Dates etc.) and creates a html preview for an event registration
+	 * 
+	 * @author Florian
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -24,6 +30,7 @@ public class CreateEvent extends HttpServlet {
 		List<String> parameter = new ArrayList<String>();
 		List<String> values = new ArrayList<String>();
 
+		//checks if input is correct eMail
 		if (task.equals("checkEMails")) {
 			String[] ids = request.getParameterValues("id");
 			String[] eMails = request.getParameterValues("eMail");
@@ -34,50 +41,52 @@ public class CreateEvent extends HttpServlet {
 					parameter.add("error");
 					values.add(ids[i]);
 				}
+
 			}
 			XMLFunctions.sendResponse(response, parameter, values);
-
+		
+			//checks and creates additional html fields for event registration
 		} else if (task.equals("buildAddedField")) {
-
+			
 			if (!checkAdditionalField(request)) {
-
-				response.setContentType("text/html");
-				PrintWriter writer = null;
-				try {
-					writer = response.getWriter();
-				} catch (IOException e) {
-					e.printStackTrace();
-					return;
-				}
-				String type = request.getParameter("type");
-				String id = request.getParameter("id");
-				String question = request.getParameter("question");
-				Boolean isRequired = request.getParameter("isRequired").equals("true");
-
-				if (type.equals("text")) {
-					writer.append(SubscribeToEvent.createTextfield(id, question, isRequired,
-							request.getParameter("isTextarea").equals("true")));
-				} else if (type.equals("date")) {
-					writer.append(SubscribeToEvent.createDatefield(id, question, isRequired,
-							request.getParameter("minDate"), request.getParameter("maxDate")));
-				} else if (type.equals("select")) {
-					writer.append(SubscribeToEvent.createSelectfield(id, question, isRequired,
-							request.getParameterValues("options[]")));
-				} else {
-					writer.append(SubscribeToEvent.createCheckboxfield(id, question, isRequired,
-							request.getParameterValues("options[]"), request.getParameter("min"),
-							request.getParameter("max")));
-				}
-
-			} else {
+			
+			response.setContentType("text/html");
+			PrintWriter writer = null;
+			try {
+				writer = response.getWriter();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return;
+			}
+			String type = request.getParameter("type");
+			String id = request.getParameter("id");
+			String question = request.getParameter("question");
+			Boolean isRequired = request.getParameter("isRequired").equals("true");
+			
+			if (type.equals("text")) {
+				writer.append(SubscribeToEvent.createTextfield(id, question, isRequired, request.getParameter("isTextarea").equals("true")));
+			} else if (type.equals("date")) {
+				writer.append(SubscribeToEvent.createDatefield(id, question, isRequired, request.getParameter("minDate"), request.getParameter("maxDate")));
+			} else if (type.equals("select")){
+				writer.append(SubscribeToEvent.createSelectfield(id, question, isRequired, request.getParameterValues("options[]")));
+			}else{
+				writer.append(SubscribeToEvent.createCheckboxfield(id, question, isRequired, request.getParameterValues("options[]"),request.getParameter("min"),request.getParameter("max")));
+			}
+			
+			}else{
 				parameter.add("error");
 				values.add(request.getParameter("id"));
 				XMLFunctions.sendResponse(response, parameter, values);
 			}
 		}
 	}
-
-	Boolean checkAdditionalField(HttpServletRequest request) {
+	
+	/**
+	 * Checks user created input fields and returns true if all settings are correct.
+	 * 
+	 * @author Florian
+	 */
+	private Boolean checkAdditionalField(HttpServletRequest request){
 		String type = request.getParameter("type");
 		String question = request.getParameter("question");
 		Boolean isRequired = request.getParameter("isRequired").equals("true");
