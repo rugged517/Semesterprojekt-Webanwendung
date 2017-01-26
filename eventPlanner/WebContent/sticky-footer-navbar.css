@@ -40,5 +40,17 @@ code {
 
 h1 {
   margin: 0;
-    display: inline-block;
+  display: inline-block;
 }
+
+.navbar-default {
+    background-color: #00FF40;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active >   
+ a:hover, .navbar-default .navbar-nav > .active > a:focus {
+color: white; /*BACKGROUND color for active*/
+background-color: #00FF40;
+}
+
+
