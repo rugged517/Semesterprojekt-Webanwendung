@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="js/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/userRights.js"></script>
+<script src="js/getUrlParameter.js"></script>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link href="css/sticky-footer-navbar.css" rel="stylesheet">
+<link href="css/custom-style.css" rel="stylesheet">
+
+<script type='text/javascript'>
+	checkForLogin();
+	
+	$(document).ready(function() {
+		if($.urlParam('note')=='noRights'){
+			$('#info-alert').text('Sie besitzen nicht die Zugriffsrechte um diese Seite aufzurufen.');
+			$('#info-alert').show();
+		}else if($.urlParam('note')=='signUp'){
+			$('#info-alert').removeClass('alert-danger').addClass('alert-success');
+			$('#info-alert').text('Sie haben sich erfolgreich angemeldet.');
+			$('#info-alert').show();
+		}else if($.urlParam('note')=='eventCreated'){
+			$('#info-alert').removeClass('alert-danger').addClass('alert-success');
+			$('#info-alert').html('Das neue Event wurde angelegt.<br>Der Anmeldelink lautet: http://localhost:8080/eventTaxi/signup_event.html?event='+ $.urlParam('link')+'&task=create');
+			$('#info-alert').show();
+		}
+	});
+	
+</script>
+</head>
+<body>
+
+	<!-- Fixed Navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Navigation ein-/ausblenden</span> <span
+						class="icon-bar"></span><span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="test_page.html">Event Taxi</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="list.html?task=allEvents">Event-Liste</a></li>
+					<li ><a href="create_event.html">Event Anlegen</a></li>
+					<li><a href="list.html?task=applications">Anmelde-Liste</a></li>
+					<li><a href="#">Profil Anzeige</a></li>
+					<li><a href="Login?task=logout">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- Seiteninhalt -->
+	<div class="container">
+
+		<div class="page-header">
+			<div style="display: none" id="info-alert" class="alert alert-danger col-sm-12"></div>
+			
+			<h1>Test Seite</h1>
+
+			<p><b>Funktionen dieser Demo:</b> Login, Regestrieren, Passwort zurücksetzen, Event anlegen, Event bearbeiten, zu
+				einem Event anmelden und Anmeldung bearbeiten, User löschen, so wie Übersichtslisten.<br>Zur Nutzung der Demo wird eine SQLite Datenbank benötigt. Weitere Informationen entnehmen Sie der beigelegten Anleitung (pdf).</p>
+			<p>Die Event-, User- und Anmeldungsübersicht fallen nicht in den Umfang dieser Demo und sind daher nur grundlegend enthalten.</p>
+			<p>Die Event Info Seite ist nicht in dieser Demo enthalten, daher kommt man von der Event Liste direkt zum Anmeldeformular.</p>
+			<p>
+				<a href="create_event.html" class="btn btn-success">Event
+					anlegen</a> <a href="list.html?task=myEvents" class="btn btn-success">Event
+					bearbeiten</a> <a href="list.html?task=allEvents"  class="btn btn-success">Zu Event
+					anmelden</a> <a href="list.html?task=applications" class="btn btn-success">Anmeldungen
+					bearbeiten</a>
+			</p>
+			<br>
+			<p>Nur Veranstalter können Events anlegen und <b>eigene</b> Events bearbeiten. Admins können <b>alle</b> Events und Anmeldungen bearbeiten.</p>
+			<p>Ihnen werden daher nur die Optionen angezeigt die für Sie zugänglich sind. Testen Sie verschiedene Möglichkeiten mit unterschiedlichen Rechten.</p>
+			<p>
+				<button id="setAdminBtn" onclick="setRights('participant', '')" class="btn btn-info">Diesen User zu
+					Teilnehmer machen</button>
+				<button id="setOrganizerBtn" onclick="setRights('organizer', '')" class="btn btn-info">Diesen User zu
+					Veranstalter machen</button>
+				<button id="setAdminBtn" onclick="setRights('admin', '')" class="btn btn-info">Diesen User zu
+					Admin machen</button>
+				<button id="deleteBtn" onclick="deleteUser('')" class="btn btn-danger">Diesen User löschen</button>
+				<a href="list.html?task=user" class="btn btn-success">Andere User bearbeiten</a>
+			</p>
+			<br>
+			<p><b>Nicht in dieser Demo enthalten sind:</b> Profil/User bearbeiten, Event- und Anmeldungsübersicht, Excel Export, E-Mail senden, SSH Verschlüsselung, Event Seite mit Karte anzeigen.</p>
+		</div>
+
+	</div>
+
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">Semesterprojekt 2017</p>
+		</div>
+	</footer>
+
+</body>
+</html>

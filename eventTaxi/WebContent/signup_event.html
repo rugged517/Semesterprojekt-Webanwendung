@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="js/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+<script src="js/getUrlParameter.js"></script>
+<script src="js/userRights.js"></script>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-formstyle.min.css">
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="css/sticky-footer-navbar.css">
+<link href="css/custom-style.css" rel="stylesheet">
+
+<script type='text/javascript'>
+	checkForLogin();
+
+	var task;
+
+	$(document).ready(function() {
+		var evlink = $.urlParam('event');
+		if (evlink != null) {
+			task = $.urlParam('task');
+			if (task == 'create') {
+				$('#ap_title').text('Zu Event anmelden');
+			} else if (task == 'edit') {
+				$('#ap_title').text('Anmeldung bearbeiten');
+			}
+			fillApplication(evlink, task);
+		} else {
+			window.location.href = 'test_page.html?note=noRights';
+		}
+	});
+
+	function fillApplication(event, status) {
+
+		$.ajax({
+			type : 'POST',
+			url : 'SignUpEvent',
+			dataType : 'text',
+			data : {
+				task : 'buildAddedField',
+				event : event,
+				status : status
+			},
+			success : function(response, status, xhr) {
+				var ct = xhr.getResponseHeader("content-type") || "";
+				if (ct.indexOf('html') > -1) {
+					if(response==''){
+						window.location.href = 'test_page.html?note=noRights';
+						return;
+					}
+					$('#additionalFields').append(response);
+					$('.dateID').each(function() {
+						activateDateField($(this).text());
+					});
+				}else{
+					window.location.href = 'test_page.html?note=noRights';
+				}
+			}
+		});
+	}
+
+	function activateDateField(id) {
+		localStorage.setItem('dateAdd-' + id, '');
+
+		var min = new Date($('#dateMin-' + id).text());
+		var max = new Date($('#dateMin-' + id).text());
+
+		$('#dateAdd-' + id).datetimepicker({
+			weekStart : 1,
+			format : 'dd.MM.yyyy hh:mm',
+			pickSeconds : false,
+			start : min,
+			end : max
+		}).on('changeDate', function(ev) {
+			localStorage.setItem('dateAdd-' + id, new Date(ev.date));
+		}).data('datetimepicker');
+	}
+
+	function getEventStatus() {
+		$.ajax({
+			type : 'POST',
+			url : 'SignUpEvent',
+			dataType : 'text',
+			data : {
+				surname : $('#ev_surname').val(),
+				name : $('#ev_name').val(),
+				phonenumber : $('#ev_phonenumber').val(),
+				company : $('#ev_company').val(),
+				street : $('#ev_street').val(),
+				postcode : $('#ev_postcode').val(),
+				city : $('#ev_city').val(),
+				task : 'saveApplication',
+				status : task
+			},
+			success : function(xml) {
+			}
+		});
+		window.location.href = 'test_page.html?note=signUp';
+		return false;
+	}
+</script>
+
+<style>
+.form-control {
+	display: block !IMPORTANT;
+	width: 100% !IMPORTANT;
+	height: 34px !IMPORTANT;
+	padding: 6px 12px !IMPORTANT;
+}
+
+.date-field {
+	height: 34px !IMPORTANT;
+	padding: 6px 12px !IMPORTANT;
+}
+
+.input-append {
+	display: inline-block !IMPORTANT;
+}
+
+textarea {
+	width: 100%;
+}
+
+.selectBtn {
+	flex: 1;
+	height: 35px;
+}
+
+.selectSpan {
+	display: flex;
+}
+
+.errorField {
+	border-color: red !IMPORTANT;
+	color: red !IMPORTANT;
+}
+
+.hideValues {
+	display: none;
+}
+
+select {
+	font-size: 14px !IMPORTANT;
+}
+</style>
+</head>
+<body>
+
+	<!-- Fixed Navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Navigation ein-/ausblenden</span> <span
+						class="icon-bar"></span><span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="test_page.html">Event Taxi</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="list.html?task=allEvents">Event-Liste</a></li>
+					<li><a href="create_event.html">Event Anlegen</a></li>
+					<li><a href="list.html?task=applications">Anmelde-Liste</a></li>
+					<li><a href="#">Profil Anzeige</a></li>
+					<li><a href="Login?task=logout">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- Seiteninhalt -->
+	<div class="container">
+
+		<div class="page-header">
+			<form id="event-form" role="form" onsubmit="submitApplication()" action="test_page.html?note=signUp">
+				<h1 id="ap_title">Zu Event anmelden</h1>
+				<h2>Anreisedaten</h2>
+				<p>Geben Sie hier ihre Anreise Daten ein, damit diese bei der
+					Anreiseplanung verwendet werden können.</p>
+				<div class="form-group">
+					<label for="ev_surname">Name</label><input id="ev_surname"
+						type="text" placeholder="Kontaktperson" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_name">Vorname</label><input id="ev_name" type="text"
+						placeholder="Kontaktperson" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_phonenumber">Telefonnummer</label><input
+						id="ev_phonenumber" type="tel" placeholder="Telefon"
+						class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_company">Unternehmen</label><input id="ev_company"
+						type="text" placeholder="Unternehmen" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_street">Straße</label><input id="ev_street"
+						type="text" placeholder="Straße" class="form-control" required>
+				</div>
+				<div class="form-group">
+					<label for="ev_postcode">PLZ</label><input id="ev_postcode"
+						type="text" placeholder="PLZ" class="form-control" required>
+				</div>
+				<div class="form-group">
+					<label for="ev_city">Ort</label><input id="ev_city" type="text"
+						placeholder="Ort" class="form-control" required>
+				</div>
+				<br>
+				<h2>Zusätzliche Angaben</h2>
+				<div id="additionalFields"></div>
+				<div class="form-group">
+					<label for="aQ-2">Datenfreigabe</label>
+					<div class="checkbox">
+						<label><input class="" name="addres" type="checkbox">Andere
+							Teilnehmer dürfen meine Addresse sehen</label>
+					</div>
+					<div class="checkbox">
+						<label><input class="" name="maps" type="checkbox">Addresse
+							anderen Teilnehmern auf Google Maps anzeigen</label>
+					</div>
+					<div class="checkbox">
+						<label><input class="" name="car" type="checkbox">Mitfahr
+							gelegenheit anbieten</label>
+					</div>
+				</div>
+				<hr>
+				<div style="display: none" id="info-alert-submit"
+					class="alert alert-danger col-sm-12"></div>
+				<p>Nach dem Klick auf den Button "Anmelden" werden Ihre Eingaben
+					geprüft und anschließend die Anmeldung abgeschlossen.</p>
+				<button type="submit" id="submitApplication" class="btn btn-success">Anmelden</button>
+			</form>
+		</div>
+	</div>
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">Semesterprojekt 2017</p>
+		</div>
+	</footer>
+</body>
+</html>

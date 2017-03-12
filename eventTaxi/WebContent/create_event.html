@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script src="js/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-datetimepicker.min.js"></script>
+<script src="js/getUrlParameter.js"></script>
+<script src="js/userRights.js"></script>
+<script src="js/create-event.js"></script>
+
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-formstyle.min.css">
+<link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="css/sticky-footer-navbar.css">
+<link href="css/custom-style.css" rel="stylesheet">
+
+<style>
+.form-control {
+	display: block !IMPORTANT;
+	width: 100% !IMPORTANT;
+	height: 34px !IMPORTANT;
+	padding: 6px 12px !IMPORTANT;
+}
+
+.date-field {
+	height: 34px !IMPORTANT;
+	padding: 6px 12px !IMPORTANT;
+}
+
+.input-append {
+	display: inline-block !IMPORTANT;
+}
+
+textarea {
+	width: 100%;
+}
+
+.selectBtn {
+	flex: 1;
+	height: 35px;
+}
+
+.selectSpan {
+	display: flex;
+}
+
+.errorField {
+	border-color: red !IMPORTANT;
+	color: red !IMPORTANT;
+}
+
+.hideValues {
+	display: none;
+}
+
+select {
+	font-size: 14px !IMPORTANT;
+}
+</style>
+</head>
+<body>
+	<!-- Fixed Navbar -->
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Navigation ein-/ausblenden</span> <span
+						class="icon-bar"></span><span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="test_page.html">Event Taxi</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="list.html?task=allEvents">Event-Liste</a></li>
+					<li class="active"><a href="create_event.html">Event Anlegen</a></li>
+					<li><a href="list.html?task=applications">Anmelde-Liste</a></li>
+					<li><a href="#">Profil Anzeige</a></li>
+					<li><a href="Login?task=logout">Logout</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- Seiteninhalt -->
+	<div class="container">
+
+		<div class="page-header">
+			<form id="event-form" role="form" onsubmit="showEventWindow()"
+				method="post">
+				<h1>Event Anlegen</h1>
+				<h2>Eventdaten</h2>
+
+				<div class="form-group">
+					<label for="ev_title">Veranstaltungs Titel</label><input
+						id="ev_title" type="text" placeholder="Veranstaltungs Name"
+						class="form-control" required>
+				</div>
+				<div class="form-group">
+					<label for="ev_surname">Kontaktperson Name</label><input
+						id="ev_surname" type="text" placeholder="Kontaktperson"
+						class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_name">Kontaktperson Vorname</label><input
+						id="ev_name" type="text" placeholder="Kontaktperson"
+						class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_eMail">Kontakt E-Mail</label><input id="ev_eMail"
+						type="eMail" placeholder="E-Mail" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_phonenumber">Kontakt Telefonnummer</label><input
+						id="ev_phonenumber" type="tel" placeholder="Telefon"
+						class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_company">Unternehmen</label><input id="ev_company"
+						type="text" placeholder="Unternehmen" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="ev_street">Straße</label><input id="ev_street"
+						type="text" placeholder="Straße" class="form-control" required>
+				</div>
+				<div class="form-group">
+					<label for="ev_postcode">PLZ</label><input id="ev_postcode"
+						type="text" placeholder="PLZ" class="form-control" required>
+				</div>
+				<div class="form-group">
+					<label for="ev_city">Ort</label><input id="ev_city" type="text"
+						placeholder="Ort" class="form-control" required>
+				</div>
+				<div class="form-group">
+					<div class="input-append">
+						<label for="ev_min">Mindest Teilnehmerzahl</label><input
+							id="ev_min" type="number" class="form-control" min="0" value="0"
+							onkeyup="miMaParticipant()" onchange="miMaParticipant()">
+					</div>
+					<div class="input-append">
+						<label for="ev_max">Maximale Teilnehmerzahl</label><input
+							id="ev_max" type="number" class="form-control" min="0" value="0"
+							onkeyup="miMaParticipant()" onchange="miMaParticipant()">
+					</div>
+				</div>
+				<div class="form-group">
+					<div style="display: none" id="info-alert"
+						class="alert alert-danger col-sm-12"></div>
+					<div id="ev_start" class="input-append date">
+						<label for="in_start" id="lb_in_start">Veranstaltungsbeginn</label>
+						<input class="date-field" id="in_start" type="text" required
+							readonly> <span class="add-on date-field"> <i
+							data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+					<div id="ev_end" class="input-append date">
+						<label for="in_end" id="lb_in_end">Veranstaltungsende</label> <input
+							class="date-field" id="in_end" type="text" required readonly>
+						<span class="add-on date-field"> <i
+							data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+					<div id="ev_dead" class="input-append date">
+						<label for="in_dead" id="lb_in_dead">Anmeldeschluss</label> <input
+							class="date-field" id="in_dead" type="text" required readonly>
+						<span class="add-on date-field"> <i
+							data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+						</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="ev_text">Beschreibungstext</label>
+					<textarea rows="5" cols="50" id="ev_text" name="ev_text" required></textarea>
+				</div>
+				<button type="submit" id="sendEventBtn" class="btn btn-info">Vorschau
+					der Eventseite</button>
+
+			</form>
+			<hr>
+			<h2>Benötigte Angaben der Teilnehmer</h2>
+			<p>Sie können individuelle Eingabefelder mit Fragen and Ihre
+				Teilnehmer hinzufügen. Zum Beispiel Fragen über bisherige
+				Erfahrungen.</p>
+			<form id="addedFields-form" role="form" onsubmit="showSubsWindow()"
+				method="post">
+				<div id="addedFields"></div>
+				<p>
+					<button type="button" id="addTextBtn" class="btn"
+						onclick="addText('')">Textfeld hinzufügen</button>
+					<button type="button" id="addDateBtn" class="btn"
+						onclick="addDate('')">Datum hinzufügen</button>
+					<button type="button" id="addSelectBtn" class="btn"
+						onclick="addSelect('', '')">Dropdownliste hinzufügen</button>
+					<button type="button" id="addCheckboxBtn" class="btn"
+						onclick="addCheckbox('', '')">Checkboxen hinzufügen</button>
+				</p>
+				<button type="submit" id="showAddedFieldsBtn" class="btn btn-info">Vorschau
+					der Anmeldung</button>
+				<br>
+			</form>
+			<hr>
+			<h2>Teilnehmer einladen</h2>
+			<p>
+				Sie können hier eMail Addressen angeben an die automatisch eine
+				Einladung zu dieser Veranstaltung versendet wird.<br>
+			</p>
+			<form id="addedFields-form" role="form" onsubmit="checkEMails()"
+				method="post">
+				<div id="addedEMails"></div>
+				<br>
+				<button type="button" id="addCheckboxBtn" class="btn"
+					onclick="addEMail()">Weitere E-Mail angeben</button>
+				<br>
+			</form>
+			<hr>
+			<div style="display: none" id="info-alert-submit"
+				class="alert alert-danger col-sm-12"></div>
+			<p>Nach dem Klick auf den Button "Event anlegen" werden Ihre
+				Eingaben geprüft und anschließend die Veranstaltung angelegt. Ihnen
+				wir dann der Link zur Übersichtsseite der Veranstaltung angezeigt.
+				Über diesen Link können Sie weitere Teilnehmer einladen.</p>
+			<button type="button" id="submitEvent" class="btn btn-success"
+				onclick="submitEvent()">Event anlegen</button>
+
+		</div>
+	</div>
+
+
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">Semesterprojekt 2017</p>
+		</div>
+	</footer>
+	<!-- Modal -->
+	<div class="modal fade" id="showModal" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Vorschau</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form>
+				<div class="modal-body" id="modal-body"></div>
+				</form>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+</html>
